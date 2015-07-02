@@ -1,0 +1,147 @@
+body{
+	font: 12px Segoe UI, Helvetica, Arial, sans-serif;
+	font-size: 80%;
+}
+#guser{
+	font-size: 14pt;
+	margin-left: 50px;
+	height: 20px;
+}
+#guserclear{
+	height: 50px;
+	font-size: 13pt;
+	margin-left: 5px;
+}
+#logo{
+	height: 100px;
+	width: 100px;
+	float: right;
+}
+#name{
+	color: #888888;
+	display: block;
+	font-size: 15pt;
+	margin-top: 50px;
+	text-align: center;
+}
+#profileinfo{
+	min-height: 200px;
+	width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #E0F9F4;
+	border-radius: 5px;
+	box-shadow: 2px 8px 5px #888888;
+	-webkit-column-count: 2; /* Chrome, Safari, Opera */
+    -moz-column-count: 2; /* Firefox */
+    column-count: 2;
+}
+.profileitem{
+	margin: 5px;
+	display: block;	
+}
+
+#verify{
+	text-align: center;
+	margin: 10px;
+	font-size: 13pt;
+}
+#question{
+	margin-right: 10px;
+	
+}
+#toggle{
+	min-width: 100px;
+	height: 50px;
+	font-size: 13.5pt;
+}
+#links{
+	float: left;
+}
+.actionlink{
+	display: block;
+	height: 5px;
+	width: 85px;
+}
+#auxprofile{
+	display: inline;
+	float: left;
+	min-height: 200px;
+	width: 650px;
+	background-color: #E0F9F4;
+	border-radius: 5px;
+	box-shadow: 2px 8px 5px #888888;
+}
+
+#status{
+	display: inline;
+	float: right;
+	min-height: 300px;
+	width: 650px;
+	background-color: #E0F9F4;
+	border-radius: 5px;
+	box-shadow: 2px 8px 5px #888888;
+}
+
+.table{
+	margin-top: 10px;
+	font-size: 11pt; 
+}
+.table tr:nth-child(even) {
+    background-color: #eee;
+}
+.table tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.show {
+    display: none; 
+}
+
+.hide, .show {
+	font-size: 20px;
+	color: #fff;
+	text-shadow: 1px 1px 0 #666;
+	text-align: center;
+	text-decoration: none;
+	margin-right: 0;
+	margin-bottom: 25px;
+}
+.hidden{
+	display: none;
+}
+.unhidden{
+	display: table-row-group;
+}
+th{	
+	text-align: left;
+}
+
+#summary{
+	min-height: 150px;
+	width: 625px;
+	margin-left: 10px;
+	margin-right: auto;
+	margin-top: 10px;
+	background-color: #fff;
+	border-radius: 5px;
+	box-shadow: 1.5px 6px 5px #888888;
+	z-index: 2;
+	
+}
+#summary h1{
+	margin-left: 10px;
+	font-size: 11pt;
+	margin-bottom:2px;
+	font-weight: normal;
+}
+#statusdata{
+	margin-left:10px;
+	font-size: 11pt;
+	-webkit-column-count: 2; /* Chrome, Safari, Opera */
+    -moz-column-count: 2; /* Firefox */
+    column-count: 2;
+}
+#statusdata p{
+	margin-top:0;
+}
