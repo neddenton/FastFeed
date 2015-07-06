@@ -18,7 +18,7 @@ body{
 	float: right;
 }
 #name{
-	color: #888888;
+	color: #4C4C4C;
 	display: block;
 	font-size: 15pt;
 	margin-top: 50px;
@@ -26,7 +26,7 @@ body{
 }
 #profileinfo{
 	height: 100%;
-	width: 900px;
+	width: 60%;
 	margin-left: auto;
 	margin-right: auto;
 	background-color: #E0F9F4;
@@ -50,14 +50,13 @@ body{
 }
 
 #verify{
-	margin-bottom: 100px;
 	text-align: center;
 	margin: 10px;
 	font-size: 13pt;
 }
 #question{
 	margin-right: 10px;
-	
+	margin-bottom: 50px;
 }
 #toggle{
 	min-width: 100px;
@@ -72,11 +71,17 @@ body{
 	height: 5px;
 	width: 85px;
 }
+#bottom{
+	margin-top: 20px;
+	margin-left: 8px;
+	margin-right: 13px;
+}
 #auxprofile{
 	display: inline;
 	float: left;
 	min-height: 200px;
-	width: 650px;
+	width: 45%;
+	min-width: 450px;
 	background-color: #E0F9F4;
 	border-radius: 5px;
 	box-shadow: 2px 8px 5px #888888;
@@ -87,7 +92,8 @@ body{
 	display: inline;
 	float: right;
 	min-height: 300px;
-	width: 650px;
+	width: 45%;
+	min-width: 450px;
 	background-color: #E0F9F4;
 	border-radius: 5px;
 	box-shadow: 2px 8px 5px #888888;
@@ -110,13 +116,16 @@ body{
 }
 
 .hide, .show {
-	font-size: 20px;
+	font-size: 30px;
 	color: #fff;
 	text-shadow: 1px 1px 0 #666;
-	text-align: center;
+	text-align: right;
 	text-decoration: none;
-	margin-right: 0;
-	margin-bottom: 25px;
+	margin-bottom: 0;
+	float: right;
+}
+.left{
+	float: left;
 }
 .hidden{
 	display: none;
@@ -130,7 +139,7 @@ th{
 
 #summary{
 	min-height: 150px;
-	width: 625px;
+	width: 95%;
 	margin-left: 10px;
 	margin-right: auto;
 	margin-top: 10px;
