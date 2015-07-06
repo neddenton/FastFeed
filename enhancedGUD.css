@@ -25,23 +25,32 @@ body{
 	text-align: center;
 }
 #profileinfo{
-	min-height: 200px;
-	width: 1000px;
+	height: 100%;
+	width: 900px;
 	margin-left: auto;
 	margin-right: auto;
 	background-color: #E0F9F4;
 	border-radius: 5px;
 	box-shadow: 2px 8px 5px #888888;
-	-webkit-column-count: 2; /* Chrome, Safari, Opera */
+	-webkit-columns: 2; /* Chrome, Safari, Opera */
     -moz-column-count: 2; /* Firefox */
     column-count: 2;
 }
+#profleft{
+	float: left;
+}
+#profright{
+	float: right;
+	margin-right: 10px;
+}
 .profileitem{
 	margin: 5px;
+	margin-bottom:15px;
 	display: block;	
 }
 
 #verify{
+	margin-bottom: 100px;
 	text-align: center;
 	margin: 10px;
 	font-size: 13pt;
@@ -71,6 +80,7 @@ body{
 	background-color: #E0F9F4;
 	border-radius: 5px;
 	box-shadow: 2px 8px 5px #888888;
+	margin-bottom: 20px;
 }
 
 #status{
@@ -81,6 +91,7 @@ body{
 	background-color: #E0F9F4;
 	border-radius: 5px;
 	box-shadow: 2px 8px 5px #888888;
+	margin-bottom: 20px;
 }
 
 .table{

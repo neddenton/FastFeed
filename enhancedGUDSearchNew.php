@@ -50,116 +50,33 @@
 					answer.innerHTML = "show";
 			});
 		});
-		</script>		
-		
-			
-				
-				
-			
-			<?php
-				for($i = 1; $i < 7; $i++){?>
-				<script>
-				$(document).ready(function(){
-				$("#hide<?php echo $i;?>").click(function(){
-					console.log('show');
+		</script>
+
+		<script>
+			$(document).ready(function(){		
+<?php			for($i = 1; $i < 7; $i++){?>
+				$("#hide<?=$i?>").click(function(){
 					document.getElementById("body<?=$i?>").className = 'unhidden';
 					document.getElementById("hide<?=$i?>").style.display = 'none';
 					document.getElementById("show<?=$i?>").style.display = 'inline';
 				});
-				
-				$("#show<?=i?>").click(function(){
-					console.log('hide');
+				$("#show<?=$i?>").click(function(){
 					document.getElementById("body<?=$i?>").className = 'hidden';
 					document.getElementById("hide<?=$i?>").style.display = 'inline';
 					document.getElementById("show<?=$i?>").style.display = 'none';
-					});
-					console.log('hide');
 				});
-			
-			</script>
-			<?php } ?>
-			<!--
-			$(document).ready(function(){					//collapse functions w/out php
-				$("#hide1").click(function(){
-					document.getElementById("body1").className = "unhidden";
-					document.getElementById("hide1").style.display = "none";
-					document.getElementById("show1").style.display = "inline";
-				});
-				
-				$("#show1").click(function(){
-					document.getElementById("body1").className = "hidden";
-					document.getElementById("hide1").style.display = "inline";
-					document.getElementById("show1").style.display = "none";
-				});
-				
-				$("#hide2").click(function(){
-					document.getElementById("body2").className = "unhidden";
-					document.getElementById("hide2").style.display = "none";
-					document.getElementById("show2").style.display = "inline";
-				});
-				
-				$("#show2").click(function(){
-					document.getElementById("body2").className = "hidden";
-					document.getElementById("hide2").style.display = "inline";
-					document.getElementById("show2").style.display = "none";
-				});
-				
-				$("#hide3").click(function(){
-					document.getElementById("body3").className = "unhidden";
-					document.getElementById("hide3").style.display = "none";
-					document.getElementById("show3").style.display = "inline";
-				});
-				
-				$("#show3").click(function(){
-					document.getElementById("body3").className = "hidden";
-					document.getElementById("hide3").style.display = "inline";
-					document.getElementById("show3").style.display = "none";
-				});
-				
-				$("#hide4").click(function(){
-					document.getElementById("body4").className = "unhidden";
-					document.getElementById("hide4").style.display = "none";
-					document.getElementById("show4").style.display = "inline";
-				});
-				
-				$("#show4").click(function(){
-					document.getElementById("body4").className = "hidden";
-					document.getElementById("hide4").style.display = "inline";
-					document.getElementById("show4").style.display = "none";
-				});
-				
-				$("#hide5").click(function(){
-					document.getElementById("body5").className = "unhidden";
-					document.getElementById("hide5").style.display = "none";
-					document.getElementById("show5").style.display = "inline";
-				});
-				
-				$("#show5").click(function(){
-					document.getElementById("body5").className = "hidden";
-					document.getElementById("hide5").style.display = "inline";
-					document.getElementById("show5").style.display = "none";
-				});
-				$("#hide6").click(function(){
-					document.getElementById("body6").className = "unhidden";
-					document.getElementById("hide6").style.display = "none";
-					document.getElementById("show6").style.display = "inline";
-				});
-				
-				$("#show6").click(function(){
-					document.getElementById("body6").className = "hidden";
-					document.getElementById("hide6").style.display = "inline";
-					document.getElementById("show6").style.display = "none";
-				});
+<?php 			} 
+?>
 			});
-			-->
 		</script>
+
 		<link href="css/m-styles.min.css" rel="stylesheet">
 		</head>
 		<body>
-		<img src="intralogo.jpg" alt="" id="logo"></img>
+		<img src="intralogo.jpg" alt="" id="logo">
 			<div class="ui-widget">
 				<input id="guser" type="text" class="m-wrap m-ctrl-huge" placeholder="search client email">
-				<button id="guserclear"href="#" class="m-btn rnd" onclick="clearInput('guser')">clear</button>
+				<button id="guserclear" href="#" class="m-btn rnd" onclick="clearInput('guser')">clear</button>
 			</div>
 			
 			<div id="name">First_Name Last_Name</div>											<!-- temp profile text -->
