@@ -21,17 +21,20 @@ body{
 	color: #4C4C4C;
 	display: block;
 	font-size: 15pt;
-	margin-top: 50px;
+	margin-top: 75px;
 	text-align: center;
 }
-#profileinfo{
+.cont{
+	background-color: #E0F9F4;
+	border-radius: 5px;
+	box-shadow: 2px 8px 5px #888888;
+}
+#cont1{
 	height: 100%;
 	width: 60%;
 	margin-left: auto;
 	margin-right: auto;
-	background-color: #E0F9F4;
-	border-radius: 5px;
-	box-shadow: 2px 8px 5px #888888;
+	
 	-webkit-columns: 2; /* Chrome, Safari, Opera */
     -moz-column-count: 2; /* Firefox */
     column-count: 2;
@@ -47,8 +50,8 @@ body{
 	margin: 5px;
 	margin-bottom:15px;
 	display: block;	
+	font: 12pt Segoe UI, Helvetica, Arial, sans-serif;
 }
-
 #verify{
 	text-align: center;
 	margin: 10px;
@@ -71,37 +74,38 @@ body{
 	height: 5px;
 	width: 85px;
 }
+#cont7{
+	display: inline;
+	padding: 5px;
+	float: right;
+	margin-right: 15px;
+	margin-top: -40px;
+}
 #bottom{
 	margin-top: 20px;
 	margin-left: 8px;
 	margin-right: 13px;
 }
-#auxprofile{
+#cont2{
 	display: inline;
 	float: left;
 	min-height: 200px;
-	width: 45%;
+	width: 47%;
 	min-width: 450px;
-	background-color: #E0F9F4;
-	border-radius: 5px;
-	box-shadow: 2px 8px 5px #888888;
 	margin-bottom: 20px;
 }
 
-#status{
+#cont3{
 	display: inline;
 	float: right;
 	min-height: 300px;
-	width: 45%;
+	width: 47%;
 	min-width: 450px;
-	background-color: #E0F9F4;
-	border-radius: 5px;
-	box-shadow: 2px 8px 5px #888888;
 	margin-bottom: 20px;
 }
 
 .table{
-	margin-top: 10px;
+	margin-top: 20px;
 	font-size: 11pt; 
 }
 .table tr:nth-child(even) {
@@ -164,4 +168,26 @@ th{
 }
 #statusdata p{
 	margin-top:0;
+}
+#cont4{
+	float: left;
+	width: 31%;
+	margin-right: 10px;
+}
+#cont5{
+	float: left;
+	width: 31%;
+	margin-right: 10px;
+}
+
+#cont6{
+	float: left;
+	width: 31%;
+	margin-right: 10px;
+}
+#lowest{
+	float: left;
+	display: block;
+	width: 46%;
+	margin-left: 10px;
 }

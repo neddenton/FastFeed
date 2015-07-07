@@ -13,7 +13,7 @@
 			}
 		</style>
 		<script>
-			$(function() {
+			/*$(function() {
 				function log( message ) {
 					$( "<div>" ).text( message ).prependTo( "#log" );
 					$( "#log" ).scrollTop( 0 );
@@ -27,7 +27,7 @@
 					"Not found, input was " + this.value );
 				}
 			});
-		});
+		});*/
 		</script>
 		<script>
 		function clearBox(elementID){
@@ -50,35 +50,11 @@
 					answer.innerHTML = "show";
 			});
 		});
-		</script>		
+		</script>
 		
 			
-				
-				
+			<script>
 			
-			<?php
-				for($i = 1; $i < 7; $i++){?>
-				<script>
-				$(document).ready(function(){
-				$("#hide<?php echo $i;?>").click(function(){
-					console.log('show');
-					document.getElementById("body<?=$i?>").className = 'unhidden';
-					document.getElementById("hide<?=$i?>").style.display = 'none';
-					document.getElementById("show<?=$i?>").style.display = 'inline';
-				});
-				
-				$("#show<?=i?>").click(function(){
-					console.log('hide');
-					document.getElementById("body<?=$i?>").className = 'hidden';
-					document.getElementById("hide<?=$i?>").style.display = 'inline';
-					document.getElementById("show<?=$i?>").style.display = 'none';
-					});
-					console.log('hide');
-				});
-			
-			</script>
-			<?php } ?>
-			<!--
 			$(document).ready(function(){					//collapse functions w/out php
 				$("#hide1").click(function(){
 					document.getElementById("body1").className = "unhidden";
@@ -151,15 +127,14 @@
 					document.getElementById("show6").style.display = "none";
 				});
 			});
-			-->
 		</script>
 		<link href="css/m-styles.min.css" rel="stylesheet">
 		</head>
 		<body>
-		<img src="intralogo.jpg" alt="" id="logo"></img>
+			<img src="intralogo.jpg" alt="" id="logo">
 			<div class="ui-widget">
 				<input id="guser" type="text" class="m-wrap m-ctrl-huge" placeholder="search client email">
-				<button id="guserclear"href="#" class="m-btn rnd" onclick="clearInput('guser')">clear</button>
+				<button id="guserclear" href="#" class="m-btn rnd" onclick="clearInput('guser')">clear</button>
 			</div>
 			
 			<div id="name">First_Name Last_Name</div>											<!-- temp profile text -->
@@ -191,40 +166,59 @@
 			<div id="verify">
 				<span id="question">What is the answer to life, the universe, and everything?</span> 				<!-- temp question text -->
 				<button id="toggle" class="m-btn  rnd">show</button>
-			</div>			
+			</div>
+			<div id="bottom">
 			<div id="auxprofile">
-				<table class="table" id="dept" style="width:100%">
-					<caption>DEPARTMENTS</caption>
-					<tr>
-						<th>name <a href="#hide1" class="hide" id="hide1">+</a>
-							<a href="#show1" class="show" id="show1">-</a>
-						</th>
-						<th>org</th> 
-						<th>description</th>
-						<th>label</th>
-					</tr>
+					<table class="table" id="dept" style="width:100%">
+						<caption>DEPARTMENTS</caption>
+						<tr>	
+							<th>name</th>
+							<th>org</th> 
+							<th>description</th>
+							<th>label<a href="#hide1" class="hide" id="hide1">+</a>
+								<a href="#show1" class="show" id="show1">-</a>
+							</th>
+						</tr>
 					<tbody class="hidden" id="body1">
 					<tr>
 						<td>a dept</td>
 						<td>an org</td>
 						<td>some description</td>
 						<td>a label</td>
-					</tr>					
+					</tr>
+					<tr>
+						<td>a dept</td>
+						<td>an org</td>
+						<td>some description</td>
+						<td>a label</td>
+					</tr>	
+					<tr>
+						<td>a dept</td>
+						<td>an org</td>
+						<td>some description</td>
+						<td>a label</td>
+					</tr>	
+					<tr>
+						<td>a dept</td>
+						<td>an org</td>
+						<td>some description</td>
+						<td>a label</td>
+					</tr>	
 					</tbody>
 				</table>
 				<table class="table" id="workspace" style="width:100%">
 					<caption>WORKSPACES</caption>
 					<tr>
-						<th>2 workspaces <a href="#hide2" class="hide" id="hide2">+</a>							<!--temp num workspaces-->
-							<a href="#show2" class="show" id="show2">-</a>
-						</th>											
+						<th>2 workspaces</th>											
 						<th>host</th> 
 						<th>role</th>
 						<th>status</th>
 						<th>last accessed</th>
-						<th>support</th>
+						<th>support<a href="#hide2" class="hide" id="hide2">+</a>							<!--temp num workspaces-->
+							<a href="#show2" class="show" id="show2">-</a>
+						</th>
 					</tr>
-					<tbody class="hidden" id="body2">
+					<tbody class="hidden" id="body2">														<!--temp table bodies ↓ -->
 					<tr>
 						<td>a workspace</td> 
 						<td>some host</td>
@@ -285,25 +279,45 @@
 				<table class="table" id="dept" style="width:100%">
 					<caption>STATUS CHANGES</caption>
 					<tr>
-						<th>status change <a href="#hide3" class="hide" id="hide3">+</a>
-							<a href="#show3" class="show" id="show3">-</a>
-						</th>
+						<th><a href="#hide3" class="hide left" id="hide3">+</a>
+							<a href="#show3" class="show left" id="show3">-</a>
+							status change</th>
 						<th>IL status</th> 
 					</tr>
 					<tbody class="hidden" id="body3">
 					<tr>
 						<td>a change</td>
 						<td>some status</td>
-					</tr>					
+					</tr>	
+					<tr>
+						<td>a change</td>
+						<td>some status</td>
+					</tr>
+					<tr>
+						<td>a change</td>
+						<td>some status</td>
+					</tr>
+					<tr>
+						<td>a change</td>
+						<td>some status</td>
+					</tr>
+					<tr>
+						<td>a change</td>
+						<td>some status</td>
+					</tr>
+					<tr>
+						<td>a change</td>
+						<td>some status</td>
+					</tr>
 					</tbody>
 				</table>
 				
 				<table class="table" id="dept" style="width:100%">
 					<caption>FLAG CHANGES</caption>
 					<tr>
-						<th>flag change <a href="#hide4" class="hide" id="hide4">+</a>
-							<a href="#show4" class="show" id="show4">-</a>
-						</th>
+						<th><a href="#hide4" class="hide left" id="hide4">+</a>
+							<a href="#show4" class="show left" id="show4">-</a>
+							flag change</th>
 						<th>flag</th>
 						<th>flag resolution</th>
 						<th>resolved by</th>
@@ -314,16 +328,40 @@
 						<td>some flag</td>
 						<td>some resolution</td>
 						<td>someone</td>
-					</tr>					
+					</tr>
+					<tr>
+						<td>a change</td>
+						<td>some flag</td>
+						<td>some resolution</td>
+						<td>someone</td>
+					</tr>	
+					<tr>
+						<td>a change</td>
+						<td>some flag</td>
+						<td>some resolution</td>
+						<td>someone</td>
+					</tr>	
+					<tr>
+						<td>a change</td>
+						<td>some flag</td>
+						<td>some resolution</td>
+						<td>someone</td>
+					</tr>	
+					<tr>
+						<td>a change</td>
+						<td>some flag</td>
+						<td>some resolution</td>
+						<td>someone</td>
+					</tr>	
 					</tbody>
 				</table>
 				
 				<table class="table" id="dept" style="width:100%">
 					<caption>CLOSE MATCHES</caption>
 					<tr>
-						<th>date <a href="#hide5" class="hide" id="hide5">+</a>
-							<a href="#show5" class="show" id="show5">-</a>
-						</th>
+						<th><a href="#hide5" class="hide left" id="hide5">+</a>
+							<a href="#show5" class="show left" id="show5">-</a>
+							date</th>
 						<th>user</th>
 						<th>resolved</th>
 					</tr>
@@ -332,16 +370,36 @@
 						<td>a date</td>
 						<td>a user</td>
 						<td>someone</td>
-					</tr>					
+					</tr>
+					<tr>
+						<td>a date</td>
+						<td>a user</td>
+						<td>someone</td>
+					</tr>	
+					<tr>
+						<td>a date</td>
+						<td>a user</td>
+						<td>someone</td>
+					</tr>	
+					<tr>
+						<td>a date</td>
+						<td>a user</td>
+						<td>someone</td>
+					</tr>	
+					<tr>
+						<td>a date</td>
+						<td>a user</td>
+						<td>someone</td>
+					</tr>	
 					</tbody>
 				</table>
 				
 				<table class="table" id="dept" style="width:100%">
 					<caption>PROFILE CHANGES</caption>
 					<tr>
-						<th>profile changed <a href="#hide6" class="hide" id="hide6">+</a>
-							<a href="#show6" class="show" id="show6">-</a>
-						</th>
+						<th><a href="#hide6" class="hide left" id="hide6">+</a>
+							<a href="#show6" class="show left" id="show6">-</a>
+							profile changed</th>
 						<th>user</th> 
 						<th>action</th>
 					</tr>
@@ -351,8 +409,29 @@
 						<td>a user</td>
 						<td>an action</td>
 					</tr>
+					<tr>
+						<td>a profile change</td>
+						<td>a user</td>
+						<td>an action</td>
+					</tr>
+					<tr>
+						<td>a profile change</td>
+						<td>a user</td>
+						<td>an action</td>
+					</tr>
+					<tr>
+						<td>a profile change</td>
+						<td>a user</td>
+						<td>an action</td>
+					</tr>
+					<tr>
+						<td>a profile change</td>
+						<td>a user</td>
+						<td>an action</td>
+					</tr>
 					</tbody>
 				</table>			
-			</div>	
+			</div>
+			</div>
 		</body>
 </html>

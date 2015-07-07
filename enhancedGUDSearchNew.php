@@ -51,7 +51,55 @@
 			});
 		});
 		</script>
+		<script>
+			$(document).ready(function(){
+<?php			for($i = 1; $i < 8; $i++){
+?>
+				var parent<?=$i?> = document.getElementById("cont<?=$i?>");	
+				parent<?=$i?>.onmouseup = dragMouseUp;
+				parent<?=$i?>.onmousedown = dragMouseDown;
+				parent<?=$i?>.onmousemove = dragMouseMove;
+				parent<?=$i?>.style.position = "relative";
+<?php			}
+?>
+				document.body.style.position = "relative";
+				function dragMouseMove(event){
+					if(this.dragging) {
+						var x = event.clientX - this.prevX;
+						var y = event.clientY - this.prevY;
 
+						var oldX = parseInt(window.getComputedStyle(this).left);
+						var oldY = parseInt(window.getComputedStyle(this).top);
+
+						this.style.top = y + oldY + "px";
+						this.style.left = x + oldX + "px";
+
+						this.prevX = event.clientX;
+						this.prevY = event.clientY;
+					}
+				};
+				function dragMouseDown(event){
+<?php				for($i = 1; $i < 8; $i++){
+?>						parent<?=$i?>.style.zIndex = "3";
+<?php				}
+?>
+					this.style.zIndex = this.style.zIndex+1;
+					this.style.boxShadow = "6px 12px 8px #888888";
+					this.style.width = parseInt(window.getComputedStyle(this).width)+ 10 +"px";
+					console.log(window.getComputedStyle(this).width);
+					this.style.height = parseInt(window.getComputedStyle(this).height)+ 10 +"px";
+					this.dragging = true;
+					this.prevX = event.clientX;
+					this.prevY = event.clientY;
+				}	
+				function dragMouseUp(){
+					this.dragging = false;
+					this.style.width = parseInt(window.getComputedStyle(this).width)- 10 +"px";
+					this.style.height = parseInt(window.getComputedStyle(this).height)- 10 +"px";
+					this.style.boxShadow = "2px 8px 5px #888888";
+				};							
+			});
+		</script>
 		<script>
 			$(document).ready(function(){		
 <?php			for($i = 1; $i < 7; $i++){
@@ -90,7 +138,7 @@
 				<a href="templink.html" class="actionlink m-btn rnd">clear new flag</a><br/>
 				<a href="templink.html" class="actionlink m-btn rnd">new alias</a><br/>
 			</div>
-			<div class="ui-widget" id="profileinfo">
+			<div class="cont" id="cont1">
 				<span id="profleft">
 				<span class="profileitem"><strong>Organization:</strong>  The Name of an Organization</span>
 				<span class="profileitem"><strong>Primary Email:</strong> </span>
@@ -108,9 +156,12 @@
 			<div id="verify">
 				<span id="question">What is the answer to life, the universe, and everything?</span> 				<!-- temp question text -->
 				<button id="toggle" class="m-btn  rnd">show</button>
+			</div>						
+			<div class="cont" id="cont7">
+				<span><strong>most recent user agent:</strong> mozilla firefux</span>				
 			</div>
 			<div id="bottom">
-			<div id="auxprofile">
+			<div class="cont" id="cont2">
 					<table class="table" id="dept" style="width:100%">
 						<caption>DEPARTMENTS</caption>
 						<tr>	
@@ -151,7 +202,8 @@
 				<table class="table" id="workspace" style="width:100%">
 					<caption>WORKSPACES</caption>
 					<tr>
-						<th>2 workspaces</th>											
+						<th>2 workspaces</th>
+						<th>type</th>
 						<th>host</th> 
 						<th>role</th>
 						<th>status</th>
@@ -162,7 +214,8 @@
 					</tr>
 					<tbody class="hidden" id="body2">														<!--temp table bodies ↓ -->
 					<tr>
-						<td>a workspace</td> 
+						<td>a workspace</td>
+						<td>a type</td>
 						<td>some host</td>
 						<td>some role</td>
 						<td>a status</td>
@@ -171,6 +224,7 @@
 					</tr>					
 					<tr>
 						<td>a workspace2</td> 
+						<td>a type</td>
 						<td>some host2</td>
 						<td>some role2</td>
 						<td>a status2</td>
@@ -178,7 +232,8 @@
 						<td>the support2</td>
 					</tr>					
 					<tr>
-						<td>a workspace3</td> 
+						<td>a workspace3</td>
+						<td>a type</td>
 						<td>some host3</td>
 						<td>some role3</td>
 						<td>a status3</td>
@@ -186,7 +241,8 @@
 						<td>the support3</td>
 					</tr>					
 					<tr>
-						<td>a workspace4</td> 
+						<td>a workspace4</td>
+						<td>a type</td>
 						<td>some host4</td>
 						<td>some role4</td>
 						<td>a status4</td>
@@ -194,7 +250,8 @@
 						<td>the support4</td>
 					</tr>					
 					<tr>
-						<td>a workspace5</td> 
+						<td>a workspace5</td>
+						<td>a type</td>
 						<td>some host5</td>
 						<td>some role5</td>
 						<td>a status5</td>
@@ -205,8 +262,8 @@
 				</table>			
 				
 			</div>
-			<div id="status">
-			<div id="summary">	
+			<div class="cont" id="cont3">
+				<div id="summary">	
 				<h1>STATUS SUMMARY</h1>			
 				<div id="statusdata">
 					<p><strong>Il Status:</strong> </p>
@@ -373,6 +430,19 @@
 					</tr>
 					</tbody>
 				</table>			
+			</div>
+			<div id="lowest">
+			<div class="cont" id="cont4">
+				SPECIAL INSTRUCTION
+				<p>----data-----</p>
+			</div>
+			<div class="cont" id="cont5">
+				MOST RECENT ALERTS
+				<p>----data-----</p>
+			</div>
+			<div class="cont" id="cont6">
+				BUSINESS GROUP INFO
+				<p>----data-----</p>
 			</div>
 			</div>
 		</body>
