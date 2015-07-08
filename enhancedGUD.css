@@ -2,6 +2,15 @@ body{
 	font: 12px Segoe UI, Helvetica, Arial, sans-serif;
 	font-size: 80%;
 }
+a{
+	position: relative;
+	top: -5px;
+	margin-right: 5px;
+}
+.end{
+	position: relative;
+	top: 10px;
+}
 #guser{
 	font-size: 14pt;
 	margin-left: 50px;
@@ -17,7 +26,7 @@ body{
 	width: 100px;
 	float: right;
 }
-#name{
+#cont8{
 	color: #4C4C4C;
 	display: block;
 	font-size: 15pt;
@@ -52,7 +61,7 @@ body{
 	display: block;	
 	font: 12pt Segoe UI, Helvetica, Arial, sans-serif;
 }
-#verify{
+#cont9{
 	text-align: center;
 	margin: 10px;
 	font-size: 13pt;
@@ -66,7 +75,7 @@ body{
 	height: 50px;
 	font-size: 13.5pt;
 }
-#links{
+#cont11{
 	float: left;
 }
 .actionlink{
@@ -77,6 +86,8 @@ body{
 #cont7{
 	display: inline;
 	padding: 5px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 	float: right;
 	margin-right: 15px;
 	margin-top: -40px;

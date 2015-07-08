@@ -53,7 +53,7 @@
 		</script>
 		<script>
 			$(document).ready(function(){
-<?php			for($i = 1; $i < 8; $i++){
+<?php			for($i = 1; $i < 12; $i++){
 ?>
 				var parent<?=$i?> = document.getElementById("cont<?=$i?>");	
 				parent<?=$i?>.onmouseup = dragMouseUp;
@@ -61,10 +61,13 @@
 				parent<?=$i?>.onmousemove = dragMouseMove;
 				parent<?=$i?>.style.position = "relative";
 <?php			}
-?>
+?>				var lastTopped = 2;
+				var resize = true;
 				document.body.style.position = "relative";
 				function dragMouseMove(event){
 					if(this.dragging) {
+						//if(resize)
+							//this.style.width = parseInt(window.getComputedStyle(this).width)+ 10 +"px";
 						var x = event.clientX - this.prevX;
 						var y = event.clientY - this.prevY;
 
@@ -76,27 +79,32 @@
 
 						this.prevX = event.clientX;
 						this.prevY = event.clientY;
+						resize = false;
 					}
 				};
 				function dragMouseDown(event){
-<?php				for($i = 1; $i < 8; $i++){
-?>						parent<?=$i?>.style.zIndex = "3";
+<?php				for($i = 1; $i < 12; $i++){
+?>					if(parent<?=$i?>.style.zIndex == "")
+						parent<?=$i?>.style.zIndex =  1;
+						
 <?php				}
-?>
-					this.style.zIndex = this.style.zIndex+1;
-					this.style.boxShadow = "6px 12px 8px #888888";
-					this.style.width = parseInt(window.getComputedStyle(this).width)+ 10 +"px";
-					console.log(window.getComputedStyle(this).width);
-					this.style.height = parseInt(window.getComputedStyle(this).height)+ 10 +"px";
+?>					if(parseInt(this.style.zIndex) < lastTopped){
+						this.style.zIndex = lastTopped+1;
+						lastTopped++;
+					}
+					if(this.className == "cont")
+						this.style.boxShadow = "6px 12px 8px #888888";
 					this.dragging = true;
 					this.prevX = event.clientX;
 					this.prevY = event.clientY;
 				}	
 				function dragMouseUp(){
 					this.dragging = false;
-					this.style.width = parseInt(window.getComputedStyle(this).width)- 10 +"px";
-					this.style.height = parseInt(window.getComputedStyle(this).height)- 10 +"px";
-					this.style.boxShadow = "2px 8px 5px #888888";
+					//if(!resize)
+						//this.style.width = parseInt(window.getComputedStyle(this).width)- 10 +"px";
+					resize = true;
+					if(this.className == "cont")
+						this.style.boxShadow = "2px 8px 5px #888888";
 				};							
 			});
 		</script>
@@ -122,14 +130,14 @@
 		</head>
 		<body>
 			<img src="intralogo.jpg" alt="" id="logo">
-			<div class="ui-widget">
+			<div class="ui-widget" id="cont10">
 				<input id="guser" type="text" class="m-wrap m-ctrl-huge" placeholder="search client email">
 				<button id="guserclear" href="#" class="m-btn rnd" onclick="clearInput('guser')">clear</button>
 			</div>
 			
-			<div id="name">First_Name Last_Name</div>											<!-- temp profile text -->
+			<div id="cont8">First_Name Last_Name</div>											<!-- temp profile text -->
 			
-			<div id="links">
+			<div id="cont11">
 				<a href="templink.html" class="actionlink m-btn rnd">new password</a><br/>
 				<a href="templink.html" class="actionlink m-btn rnd">update profile</a><br/>
 				<a href="http://wildeastmusic.bandcamp.com" class="actionlink m-btn rnd">merge</a><br/>
@@ -153,7 +161,7 @@
 				<span class="profileitem"><strong>Alerts:</strong> </span>
 				</span>
 			</div>			
-			<div id="verify">
+			<div id="cont9">
 				<span id="question">What is the answer to life, the universe, and everything?</span> 				<!-- temp question text -->
 				<button id="toggle" class="m-btn  rnd">show</button>
 			</div>						
@@ -168,7 +176,7 @@
 							<th>name</th>
 							<th>org</th> 
 							<th>description</th>
-							<th>label<a href="#hide1" class="hide" id="hide1">+</a>
+							<th><span class="end">label</span><a href="#hide1" class="hide" id="hide1">+</a>
 								<a href="#show1" class="show" id="show1">-</a>
 							</th>
 						</tr>
@@ -208,7 +216,7 @@
 						<th>role</th>
 						<th>status</th>
 						<th>last accessed</th>
-						<th>support<a href="#hide2" class="hide" id="hide2">+</a>							<!--temp num workspaces-->
+						<th><span class="end">support</span><a href="#hide2" class="hide" id="hide2">+</a>							<!--temp num workspaces-->
 							<a href="#show2" class="show" id="show2">-</a>
 						</th>
 					</tr>
@@ -280,7 +288,7 @@
 					<tr>
 						<th><a href="#hide3" class="hide left" id="hide3">+</a>
 							<a href="#show3" class="show left" id="show3">-</a>
-							status change</th>
+							<span class="end">status change</span></th>
 						<th>IL status</th> 
 					</tr>
 					<tbody class="hidden" id="body3">
@@ -316,7 +324,7 @@
 					<tr>
 						<th><a href="#hide4" class="hide left" id="hide4">+</a>
 							<a href="#show4" class="show left" id="show4">-</a>
-							flag change</th>
+							<span class="end">flag change</span></th>
 						<th>flag</th>
 						<th>flag resolution</th>
 						<th>resolved by</th>
@@ -360,7 +368,7 @@
 					<tr>
 						<th><a href="#hide5" class="hide left" id="hide5">+</a>
 							<a href="#show5" class="show left" id="show5">-</a>
-							date</th>
+							<span class="end">date</span></th>
 						<th>user</th>
 						<th>resolved</th>
 					</tr>
@@ -398,7 +406,7 @@
 					<tr>
 						<th><a href="#hide6" class="hide left" id="hide6">+</a>
 							<a href="#show6" class="show left" id="show6">-</a>
-							profile changed</th>
+							<span class="end">profile changed</span></th>
 						<th>user</th> 
 						<th>action</th>
 					</tr>
