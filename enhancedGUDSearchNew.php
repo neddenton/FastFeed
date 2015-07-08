@@ -60,6 +60,8 @@
 				parent<?=$i?>.onmousedown = dragMouseDown;
 				parent<?=$i?>.onmousemove = dragMouseMove;
 				parent<?=$i?>.style.position = "relative";
+				parent<?=$i?>.style.top = "0";
+				parent<?=$i?>.style.left = "0";
 <?php			}
 ?>				var lastTopped = 2;
 				var resize = true;
@@ -70,13 +72,10 @@
 							//this.style.width = parseInt(window.getComputedStyle(this).width)+ 10 +"px";
 						var x = event.clientX - this.prevX;
 						var y = event.clientY - this.prevY;
-
 						var oldX = parseInt(window.getComputedStyle(this).left);
 						var oldY = parseInt(window.getComputedStyle(this).top);
-
 						this.style.top = y + oldY + "px";
 						this.style.left = x + oldX + "px";
-
 						this.prevX = event.clientX;
 						this.prevY = event.clientY;
 						resize = false;
@@ -210,13 +209,13 @@
 				<table class="table" id="workspace" style="width:100%">
 					<caption>WORKSPACES</caption>
 					<tr>
-						<th>2 workspaces</th>
-						<th>type</th>
-						<th>host</th> 
-						<th>role</th>
-						<th>status</th>
-						<th>last accessed</th>
-						<th><span class="end">support</span><a href="#hide2" class="hide" id="hide2">+</a>							<!--temp num workspaces-->
+						<th>2 Workspaces</th>
+						<th>Type</th>
+						<th>Host</th> 
+						<th>Role</th>
+						<th>Status</th>
+						<th>Last accessed</th>
+						<th><span class="end">Support</span><a href="#hide2" class="hide" id="hide2">+</a>							<!--temp num workspaces-->
 							<a href="#show2" class="show" id="show2">-</a>
 						</th>
 					</tr>
