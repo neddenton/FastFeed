@@ -23,14 +23,12 @@
 				}
 				$( "#guser" ).autocomplete({
 					source: "search.php",
-					minLength: 6,
+					minLength: 4,
 					select: function( event, ui ) {
-					console.log(ui.item);
 					logName( ui.item ? ui.item.firstName + " " + ui.item.lastName: "Not found, input was " + this.value);	
 					logProfile( ui.item ? "</span><span class='profileitem'><strong>Primary Email: </strong>" + ui.item.email					
 					: "Not found, input was " + this.value); 
-				}
-				
+				}				
 			});
 		});
 		</script>
@@ -43,22 +41,6 @@
 		function clearInput(elementID) {
 			document.getElementById(elementID).value = '';
 		}
-		</script>
-		<script>
-			function search(elementID){
-					var ajax = new XMLHttpRequest();
-					ajax.onload = function( event, ui ){
-						var results = JSON.parse(this.responseText);
-						console.log(results);
-						logName(results.FIRST_NAME+" "+results.LAST_NAME);
-					//logName( ui.item ? ui.item.FIRST_NAME + " " + ui.item.LAST_NAME: "Not found, input was " + this.value);	
-					};
-					ajax.open("GET", "search.php?term=" + document.getElementById("guser").value, true);
-					ajax.send();
-				}
-			function logName( name) {
-					$("#cont8").text(name);					
-				}
 		</script>
 		<script>
 		$(document).ready(function(){
@@ -81,9 +63,31 @@
 				parent<?=$i?>.onmousedown = dragMouseDown;
 				parent<?=$i?>.onmousemove = dragMouseMove;
 				parent<?=$i?>.style.position = "relative";
-				parent<?=$i?>.style.top = "0";
-				parent<?=$i?>.style.left = "0";
-<?php			}
+<?php			
+			/*	session_start();
+				if($_SESSION["loggedIn"] == true){
+					$con=mysqli_connect("localhost","edenton","646S5mShzvvJNb7c", "edenton");
+					$qstring = "SELECT TOP_".$i.", LEFT_".$i.", Z_".$i." FROM positioning WHERE ID = '12345'";
+					$result = mysqli_query($con, $qstring);
+					while($row    = mysqli_fetch_assoc($result))
+						{
+							$row['TOP_'.$i]=(int)$row['TOP_'.$i];
+							$top = $row['TOP_'.$i];
+							$row['LEFT_'.$i]=(int)$row['LEFT_'.$i];
+							$left = $row['LEFT_'.$i];
+							$row['Z_'.$i]=(int)$row['Z_'.$i];
+							$z = $row['Z_'.$i];
+						}
+					echo "parent".$i.".style.top =".$top;
+					echo "parent".$i.".style.left =".$left;
+					echo "parent".$i.".style.zIndex =".$z;
+				}
+					else{*/
+?>					
+						parent<?=$i?>.style.top = "0";
+						parent<?=$i?>.style.left = "0";
+<?php				//}
+				}
 ?>				var lastTopped = 2;
 				var resize = true;
 				document.body.style.position = "relative";
@@ -125,6 +129,7 @@
 					resize = true;
 					if(this.className == "cont")
 						this.style.boxShadow = "2px 8px 5px #888888";
+					//$writetosql = "INSERT INTO positioning (TOP_<?=i?>, LEFT_<?=i?>, Z_<?=i?>) VALUES ()";
 				};							
 			});
 		</script>
