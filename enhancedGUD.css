@@ -41,6 +41,7 @@ a{
 #cont1{
 	height: 100%;
 	width: 60%;
+	min-height: 150px;
 	margin-left: auto;
 	margin-right: auto;
 	
@@ -201,4 +202,7 @@ th{
 	display: block;
 	width: 46%;
 	margin-left: 10px;
+}
+#data{
+	display: none;
 }

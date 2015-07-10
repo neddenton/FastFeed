@@ -13,21 +13,26 @@
 			}
 		</style>
 		<script>
-			/*$(function() {
-				function log( message ) {
-					$( "<div>" ).text( message ).prependTo( "#log" );
-					$( "#log" ).scrollTop( 0 );
+			$(function() {
+				function logName( name) {
+					$("#cont8").text(name);					
+				}
+				function logProfile(profile){
+					$("#cont1").html(profile);
+					$("#data").show();
 				}
 				$( "#guser" ).autocomplete({
 					source: "search.php",
-					minLength: 2,
+					minLength: 6,
 					select: function( event, ui ) {
-					log( ui.item ?
-					"USERNAME : " + ui.item.value + " EMAIL :" + ui.item.EMAIL + " FIRST NAME :" + ui.item.FIRST_NAME + " LAST NAME :" + ui.item.LAST_NAME + " CREATED :" + ui.item.CREATED_DATE:
-					"Not found, input was " + this.value );
+					console.log(ui.item);
+					logName( ui.item ? ui.item.firstName + " " + ui.item.lastName: "Not found, input was " + this.value);	
+					logProfile( ui.item ? "</span><span class='profileitem'><strong>Primary Email: </strong>" + ui.item.email					
+					: "Not found, input was " + this.value); 
 				}
+				
 			});
-		});*/
+		});
 		</script>
 		<script>
 		function clearBox(elementID){
@@ -38,7 +43,23 @@
 		function clearInput(elementID) {
 			document.getElementById(elementID).value = '';
 		}
-		</script>		
+		</script>
+		<script>
+			function search(elementID){
+					var ajax = new XMLHttpRequest();
+					ajax.onload = function( event, ui ){
+						var results = JSON.parse(this.responseText);
+						console.log(results);
+						logName(results.FIRST_NAME+" "+results.LAST_NAME);
+					//logName( ui.item ? ui.item.FIRST_NAME + " " + ui.item.LAST_NAME: "Not found, input was " + this.value);	
+					};
+					ajax.open("GET", "search.php?term=" + document.getElementById("guser").value, true);
+					ajax.send();
+				}
+			function logName( name) {
+					$("#cont8").text(name);					
+				}
+		</script>
 		<script>
 		$(document).ready(function(){
 			$("#toggle").click(function(){
@@ -133,8 +154,7 @@
 				<input id="guser" type="text" class="m-wrap m-ctrl-huge" placeholder="search client email">
 				<button id="guserclear" href="#" class="m-btn rnd" onclick="clearInput('guser')">clear</button>
 			</div>
-			
-			<div id="cont8">First_Name Last_Name</div>											<!-- temp profile text -->
+			<div id="cont8"></div>											
 			
 			<div id="cont11">
 				<a href="templink.html" class="actionlink m-btn rnd">new password</a><br/>
@@ -145,8 +165,9 @@
 				<a href="templink.html" class="actionlink m-btn rnd">clear new flag</a><br/>
 				<a href="templink.html" class="actionlink m-btn rnd">new alias</a><br/>
 			</div>
+			<div id="data">
 			<div class="cont" id="cont1">
-				<span id="profleft">
+				<!--<span id="profleft">
 				<span class="profileitem"><strong>Organization:</strong>  The Name of an Organization</span>
 				<span class="profileitem"><strong>Primary Email:</strong> </span>
 				<span class="profileitem"><strong>Industry:</strong> </span>
@@ -158,7 +179,7 @@
 				<span class="profileitem"><strong>Alias email:</strong> aliasemail@intralinks.com</span>
 				<span class="profileitem"><strong>Allow Concurrent:</strong> </span>
 				<span class="profileitem"><strong>Alerts:</strong> </span>
-				</span>
+				</span>-->
 			</div>			
 			<div id="cont9">
 				<span id="question">What is the answer to life, the universe, and everything?</span> 				<!-- temp question text -->
@@ -450,6 +471,7 @@
 			<div class="cont" id="cont6">
 				BUSINESS GROUP INFO
 				<p>----data-----</p>
+			</div>
 			</div>
 			</div>
 		</body>
