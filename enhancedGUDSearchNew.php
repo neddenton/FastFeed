@@ -48,7 +48,7 @@
 					"<span class='profileitem'><strong>Password Last Modified: </strong>"+data[0].passModDate+"</span>"+
 					"<span class='profileitem'><strong>Organization ID: </strong>"+data[0].orgID+"</span></div>");
 					document.getElementById("question").innerHTML = data[0].authQuestion;
-					document.getElementById("card11").innerHTML += "<span class='bigtext'>"+data[0].pwExpIn+ " days</span>";
+					document.getElementById("card11").innerHTML = "<div class='title'>CHANGE PASSWORD IN<div class='bigtext'>"+data[0].pwExpIn+ " days</div></div><br/>";
 					
 				}
 				function getWorkspaces(email){
@@ -58,28 +58,38 @@
 					request.send();
 				}
 				function logWorkspaces(){
-					var data= JSON.parse(this.responseText);
-					/*$("#card1").html("<span class='profileitem'><strong>Primary Email: </strong>"+data[0].email+"</span>"+
-					"<span class='profileitem'><strong>User ID: </strong>"+data[0].userID+"</span>"+
-					"<span class='profileitem'><strong>Last Login: </strong>"+data[0].lastLogin+"</span>"+
-					"<span class='profileitem'><strong>Date Created: </strong>"+data[0].createdDate+"</span>"+
-					"<span class='profileitem'><strong>Password Last Modified: </strong>"+data[0].PassModDate+"</span>"+
-					"<span class='profileitem'><strong>Organization ID: </strong>"+data[0].orgID+"</span>");*/
-					
+					var data = JSON.parse(this.responseText);
+					var numSpaces = data.length;
+					document.getElementById("numSpaces").innerHTML = (numSpaces+" workspaces");
+					for(var i = 0; i<numSpaces; i++){
+					document.getElementById("body2").innerHTML += 
+					"<tr> <td>"+data[i].name+"</td>"+
+					"<td>"+data[i].id+"</td>"+
+					"<td>"+data[i].prodName+"</td>"+
+					"<td>"+data[i].code+"</td>"+
+					"<td>"+data[i].lastAccessed+"</td>"+
+					"<td>"+data[i].accessCount+"<td></tr>";
+					}
 					
 				}
 				$( "#guser" ).autocomplete({
 					source: "search.php",
 					minLength: 4,
 					select: function( event, ui ) {
+					clearData();
 					logName( ui.item ? ui.item.firstName + " " + ui.item.lastName: "Not found, input was " + this.value);	
 					logEmail( ui.item ? "</span><span class='profileitem'><strong>Primary Email: </strong>" + ui.item.email					
 					: "Not found, input was " + this.value);
 					displayData();
 					getProf(ui.item ? ui.item.email: "Not found, input was " + this.value);
-					//getWorkspaces(ui.item ? ui.item.email: "Not found, input was " + this.value);
-				}				
+					getWorkspaces(ui.item ? ui.item.email: "Not found, input was " + this.value);
+				}
+				
 				});
+				function clearData(){
+					document.getElementById("body2").innerHTML = "";
+					
+				}
 			
 		
 		});
@@ -238,7 +248,6 @@
 			
 			<div id="data">
 			<div id="card11" class="card">																						<!--DAYS UNTIL PASSWORD EXPIRES-->
-				<caption>CHANGE PASSWORD IN</caption><br/>
 			</div>
 			<div class="card" id="card1">																				<!--PROFILE DATA-->
 				<!--<span id="profleft">
@@ -256,10 +265,11 @@
 				</span>-->
 			</div>			
 			<div id="card9">																							<!--SECURITY Q (temp question text)-->
-				<span id="question">What is the answer to life, the universe, and everything?</span>
+				<span id="question"></span>
 				<button id="toggle" class="m-btn  rnd">show</button>
 			</div>						
 			<div class="card" id="card7">																				<!--CLIENT AGENT DATA-->
+				<div class="title">USER AGENT</div>
 				<span><strong>most recent user agent:</strong> mozilla firefux</span><br/><br/>
 				<span><strong>client OS:</strong> windows 95</span><br/><br/>
 				<span><strong>IPA:</strong> 127.0.0.1</span><br/><br/>
@@ -267,66 +277,20 @@
 			</div>
 			<div id="bottom">
 			<div class="card" id="card2">																				<!--2ND LVL CARD-->
-					
+				<div class="title">EXCHANGES</div>
 				<table class="table" id="workspace" style="width:100%">													<!--WORKSPACES-->
 					<caption>WORKSPACES</caption>
 					<tr>
-						<th>2 Workspaces</th>
-						<th>Type</th>
-						<th>Host</th> 
-						<th>Role</th>
-						<th>Status</th>
-						<th>Last accessed</th>
-						<th><span class="end">Support</span><a href="#hide2" class="hide" id="hide2">+</a>							
+						<th id="numSpaces">workspaces</th>
+						<th>id</th>
+						<th>product</th> 
+						<th>product code</th>
+						<th>last accessed</th>
+						<th><span class="end">access count</span><a href="#hide2" class="hide" id="hide2">+</a>							
 							<a href="#show2" class="show" id="show2">-</a>
 						</th>
 					</tr>
-					<tbody class="hidden" id="body2">								<!--temp table bodies ↓ -->
-					<tr>
-						<td>a workspace</td>
-						<td>a type</td>
-						<td>some host</td>
-						<td>some role</td>
-						<td>a status</td>
-						<td>time accessed</td>
-						<td>the support</td>
-					</tr>					
-					<tr>
-						<td>a workspace2</td> 
-						<td>a type</td>
-						<td>some host2</td>
-						<td>some role2</td>
-						<td>a status2</td>
-						<td>time accessed2</td>
-						<td>the support2</td>
-					</tr>					
-					<tr>
-						<td>a workspace3</td>
-						<td>a type</td>
-						<td>some host3</td>
-						<td>some role3</td>
-						<td>a status3</td>
-						<td>time accessed3</td>
-						<td>the support3</td>
-					</tr>					
-					<tr>
-						<td>a workspace4</td>
-						<td>a type</td>
-						<td>some host4</td>
-						<td>some role4</td>
-						<td>a status4</td>
-						<td>time accessed4</td>
-						<td>the support4</td>
-					</tr>					
-					<tr>
-						<td>a workspace5</td>
-						<td>a type</td>
-						<td>some host5</td>
-						<td>some role5</td>
-						<td>a status5</td>
-						<td>time accessed5</td>
-						<td>the support5</td>
-					</tr>				
+					<tbody class="hidden" id="body2">					
 					</tbody>
 				</table>
 				<table class="table" id="businessgroups" style="width:100%">											<!--BUSINESS GROUPS-->
@@ -534,16 +498,16 @@
 			</div>
 			<div id="lowest">																							<!--3RD LVL CARDS-->
 			<div class="card" id="card4">																				<!--SPECIAL INSTRUCTION-->
-				SPECIAL INSTRUCTION
+				<div class="title">SPECIAL INSTRUCTION</div>
 				<p>----data-----</p>
 			</div>
 			<div class="card" id="card5">																				<!--RECENT ALERTS-->
-				MOST RECENT ALERTS
+				<div class="title">MOST RECENT ALERTS</div>
 				<p>----data-----</p>
 			</div>
 			<div class="card" id="card6">																				<!--DEPARTMENTS-->
 			<table class="table" id="dept" style="width:100%">														
-						<caption>DEPARTMENTS</caption>
+						<caption class="title">DEPARTMENTS</caption>
 						<tr>	
 							<th>name</th>
 							<th>org</th> 
@@ -582,7 +546,7 @@
 				
 			</div>
 			<div class="card" id ="card12">
-				TICKET HISTORY
+				<div class="title">TICKET HISTORY</div>
 				<p>----data-----</p>
 				
 			</div>

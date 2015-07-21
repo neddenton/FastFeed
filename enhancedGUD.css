@@ -33,11 +33,13 @@ a{
 #card8{
 	color: #4C4C4C;
 	display: block;
-	font-size: 15pt;
-	margin-top: 75px;
+	font-size: 18pt;
+	margin-top: 20px;
+	margin-bottom: 25px;
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
+	text-shadow: 1px 2px #E6E6E6;
 }
 .card{
 	background-color: #E0F9F4;
@@ -50,7 +52,8 @@ a{
 	min-height: 150px;
 	margin-left: 15%;
 	margin-right: auto;
-	
+}
+.twocol{
 	-webkit-columns: 2; /* Chrome, Safari, Opera */
     -moz-column-count: 2; /* Firefox */
     column-count: 2;
@@ -83,8 +86,10 @@ a{
 	font-size: 13.5pt;
 }
 #card11{
-	float: left;
-	padding: 10px;
+	float: right;
+	margin-right: 50px;
+	margin-top: -50px;
+	text-align: center;
 }
 .actionlink{
 	display: block;
@@ -93,13 +98,14 @@ a{
 }
 #card7{
 	display: inline;
-	padding: 5px;
-	padding-top: 10px;
 	padding-bottom: 10px;
 	float: right;
 	margin-right: 13px;
 	margin-top: -50px;
 	margin-bottom: -5px;
+}
+#card7 span{
+	padding: 10px;
 }
 #bottom{
 	margin-top: 20px;
@@ -125,7 +131,7 @@ a{
 }
 
 .table{
-	margin-top: 20px;
+	margin-top: 10px;
 	font-size: 11pt; 
 }
 .table tr:nth-child(even) {
@@ -211,7 +217,6 @@ th{
 	width: 90%;
 	margin-left: 20px;
 	margin-top: 20px;
-	text-align: center;
 	min-height: 200px;
 }
 #lowest{
@@ -229,6 +234,19 @@ th{
 .bigtext{
 	font-size: 20pt;
 	text-align: center;
+	margin-left:auto;
+	margin-right: auto;
+}
+.caption{
+	float: left;
+}
+.title{
+	font-size: 12pt;
+	color: #000000;
+	text-transform: uppercase;
+	text-shadow: 2px 2px 1px #FFFFFF;
+	/*background-color: #666666;*/
+	border-radius: 3px;
 }
 .ui-menu .ui-menu-item {
     background:#E0F9F4;
