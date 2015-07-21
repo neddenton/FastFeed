@@ -1,3 +1,9 @@
+<!--Intralinks
+	Enhanced GUD
+	
+	Ned Denton
+-->
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -13,29 +19,70 @@
 			}
 		</style>
 		<script>
-			$(function() {
-				function logName( name) {
-					$("#cont8").text(name);					
-				}
-				function logProfile(profile){
-					$("#cont1").html(profile);
+		<?php 	
+				$id = 12346;			//hardcoded user ID (to save formatting)
+		?>
+			$(function() {				//function to autocomplete and display all fields
+				function displayData(){
 					$("#data").show();
+				}
+				function logName(name) {
+					$("#card8").text(name);					
+				}				
+				function logEmail(email){
+					$("#card1").html(email);
+				}
+				function getProf(email){
+					var request = new XMLHttpRequest();
+					request.onload = logProf;
+					request.open("GET", "searchProfData.php?email=" + email, true);
+					request.send();
+				}
+				function logProf(){
+					var data= JSON.parse(this.responseText);
+					$("#card1").html("<div class='title'>PROFILE INFO</div><div class='twocol'>"+
+					"<span class='profileitem'><strong>Primary Email: </strong>"+data[0].email+"</span>"+
+					"<span class='profileitem'><strong>User ID: </strong>"+data[0].userID+"</span>"+
+					"<span class='profileitem'><strong>Last Login: </strong>"+data[0].lastLogin+"</span>"+
+					"<span class='profileitem'><strong>Date Created: </strong>"+data[0].createdDate+"</span>"+
+					"<span class='profileitem'><strong>Password Last Modified: </strong>"+data[0].passModDate+"</span>"+
+					"<span class='profileitem'><strong>Organization ID: </strong>"+data[0].orgID+"</span></div>");
+					document.getElementById("question").innerHTML = data[0].authQuestion;
+					document.getElementById("card11").innerHTML += "<span class='bigtext'>"+data[0].pwExpIn+ " days</span>";
+					
+				}
+				function getWorkspaces(email){
+					var request = new XMLHttpRequest();
+					request.onload = logWorkspaces;
+					request.open("GET", "searchWorkData.php?email=" + email, true);
+					request.send();
+				}
+				function logWorkspaces(){
+					var data= JSON.parse(this.responseText);
+					/*$("#card1").html("<span class='profileitem'><strong>Primary Email: </strong>"+data[0].email+"</span>"+
+					"<span class='profileitem'><strong>User ID: </strong>"+data[0].userID+"</span>"+
+					"<span class='profileitem'><strong>Last Login: </strong>"+data[0].lastLogin+"</span>"+
+					"<span class='profileitem'><strong>Date Created: </strong>"+data[0].createdDate+"</span>"+
+					"<span class='profileitem'><strong>Password Last Modified: </strong>"+data[0].PassModDate+"</span>"+
+					"<span class='profileitem'><strong>Organization ID: </strong>"+data[0].orgID+"</span>");*/
+					
+					
 				}
 				$( "#guser" ).autocomplete({
 					source: "search.php",
 					minLength: 4,
 					select: function( event, ui ) {
 					logName( ui.item ? ui.item.firstName + " " + ui.item.lastName: "Not found, input was " + this.value);	
-					logProfile( ui.item ? "</span><span class='profileitem'><strong>Primary Email: </strong>" + ui.item.email					
-					: "Not found, input was " + this.value); 
+					logEmail( ui.item ? "</span><span class='profileitem'><strong>Primary Email: </strong>" + ui.item.email					
+					: "Not found, input was " + this.value);
+					displayData();
+					getProf(ui.item ? ui.item.email: "Not found, input was " + this.value);
+					//getWorkspaces(ui.item ? ui.item.email: "Not found, input was " + this.value);
 				}				
-			});
+				});
+			
+		
 		});
-		</script>
-		<script>
-		function clearBox(elementID){
-			document.getElementById(elementID).innerHTML = "";
-		}
 		</script>
 		<script>
 		function clearInput(elementID) {
@@ -43,7 +90,7 @@
 		}
 		</script>
 		<script>
-		$(document).ready(function(){
+		$(document).ready(function(){					//function to toggle security question/restore default format/switch search mode
 			$("#toggle").click(function(){
 				var answer = document.getElementById("toggle");
 				var answerText = "42" + " (click to hide)";										//temp answer text
@@ -52,24 +99,39 @@
 				else
 					answer.innerHTML = "show";
 			});
+			$("#logo").click(function(){
+<?php			for($i = 1; $i < 13; $i++){
+?>					var card<?=$i?> = document.getElementById("card<?=$i?>");
+					card<?=$i?>.style.top ="0px";
+					card<?=$i?>.style.left = "0px";
+					card<?=$i?>.style.zIndex = 0;			
+					$.ajax({
+						type: "POST",
+						url: "logPosition.php",
+						data: {thisTop: 0, thisLeft: 0, thisZ: 0, iterant: <?=$i?>, id: <?=$id?>}
+						});
+					
+<?php			}
+?>			
+			});
+			
 		});
 		</script>
 		<script>
-			$(document).ready(function(){
-<?php			for($i = 1; $i < 12; $i++){
+			$(document).ready(function(){				//positioning function
+				var lastTopped = 2;
+<?php		
+				for($i = 1; $i < 13; $i++){
 ?>
-				var parent<?=$i?> = document.getElementById("cont<?=$i?>");	
-				parent<?=$i?>.onmouseup = dragMouseUp;
-				parent<?=$i?>.onmousedown = dragMouseDown;
-				parent<?=$i?>.onmousemove = dragMouseMove;
-				parent<?=$i?>.style.position = "relative";
+				var card<?=$i?> = document.getElementById("card<?=$i?>");
+				card<?=$i?>.style.position = "relative";
 <?php			
-			/*	session_start();
-				if($_SESSION["loggedIn"] == true){
+				//session_start();
+				if(true){				//$_SESSION["loggedIn"] == 							//if logged in, then pulls position from mySQL
 					$con=mysqli_connect("localhost","edenton","646S5mShzvvJNb7c", "edenton");
-					$qstring = "SELECT TOP_".$i.", LEFT_".$i.", Z_".$i." FROM positioning WHERE ID = '12345'";
+					$qstring = "SELECT TOP_".$i.", LEFT_".$i.", Z_".$i." FROM positioning WHERE ID = '".$id."'";
 					$result = mysqli_query($con, $qstring);
-					while($row    = mysqli_fetch_assoc($result))
+					if($row  = mysqli_fetch_assoc($result))
 						{
 							$row['TOP_'.$i]=(int)$row['TOP_'.$i];
 							$top = $row['TOP_'.$i];
@@ -77,24 +139,32 @@
 							$left = $row['LEFT_'.$i];
 							$row['Z_'.$i]=(int)$row['Z_'.$i];
 							$z = $row['Z_'.$i];
+						?>
+					card<?=$i?>.style.top = <?=$top?>+"px";
+					card<?=$i?>.style.left = <?=$left?>+"px";
+					card<?=$i?>.style.zIndex = <?=$z?>;
+					var lastTopped = Math.max(lastTopped, <?=$z?>);
+					<?php
 						}
-					echo "parent".$i.".style.top =".$top;
-					echo "parent".$i.".style.left =".$left;
-					echo "parent".$i.".style.zIndex =".$z;
+						else{	?>
+							card<?=$i?>.style.top = "0px";
+							card<?=$i?>.style.left = "0px";
+							card<?=$i?>.style.zIndex = "0";
+						<?php							
+						}						
 				}
-					else{*/
-?>					
-						parent<?=$i?>.style.top = "0";
-						parent<?=$i?>.style.left = "0";
-<?php				//}
-				}
-?>				var lastTopped = 2;
-				var resize = true;
+					else{
+?>						var lastTopped = 2;
+						card<?=$i?>.style.top = "0";
+						card<?=$i?>.style.left = "0";
+<?php				} ?>
+				card<?=$i?>.onmouseup = dragMouseUp;
+				card<?=$i?>.onmousedown = dragMouseDown;
+				card<?=$i?>.onmousemove = dragMouseMove;
+<?php			} ?>
 				document.body.style.position = "relative";
 				function dragMouseMove(event){
 					if(this.dragging) {
-						//if(resize)
-							//this.style.width = parseInt(window.getComputedStyle(this).width)+ 10 +"px";
 						var x = event.clientX - this.prevX;
 						var y = event.clientY - this.prevY;
 						var oldX = parseInt(window.getComputedStyle(this).left);
@@ -103,20 +173,19 @@
 						this.style.left = x + oldX + "px";
 						this.prevX = event.clientX;
 						this.prevY = event.clientY;
-						resize = false;
 					}
 				};
 				function dragMouseDown(event){
-<?php				for($i = 1; $i < 12; $i++){
-?>					if(parent<?=$i?>.style.zIndex == "")
-						parent<?=$i?>.style.zIndex =  1;
+<?php				for($i = 1; $i < 13; $i++){
+?>					if(card<?=$i?>.style.zIndex == "")
+						card<?=$i?>.style.zIndex =  1;
 						
 <?php				}
 ?>					if(parseInt(this.style.zIndex) < lastTopped){
 						this.style.zIndex = lastTopped+1;
 						lastTopped++;
 					}
-					if(this.className == "cont")
+					if(this.className == "card")
 						this.style.boxShadow = "6px 12px 8px #888888";
 					this.dragging = true;
 					this.prevX = event.clientX;
@@ -124,18 +193,23 @@
 				}	
 				function dragMouseUp(){
 					this.dragging = false;
-					//if(!resize)
-						//this.style.width = parseInt(window.getComputedStyle(this).width)- 10 +"px";
-					resize = true;
-					if(this.className == "cont")
-						this.style.boxShadow = "2px 8px 5px #888888";
-					//$writetosql = "INSERT INTO positioning (TOP_<?=i?>, LEFT_<?=i?>, Z_<?=i?>) VALUES ()";
-				};							
+					if(this.className == "card")
+						this.style.boxShadow = "2px 8px 5px #888888";						
+					var thisTop = window.getComputedStyle(this).top;
+					var thisLeft = window.getComputedStyle(this).left;
+					var thisZ = window.getComputedStyle(this).zIndex;
+					var iterant = this.id.substring(4);					
+					$.ajax({											//log position in mySQL once changed
+						type: "POST",
+						url: "logPosition.php",
+						data: {thisTop: thisTop, thisLeft: thisLeft, thisZ: thisZ, iterant: iterant, id: <?=$id?>}
+						});
+				};	
 			});
 		</script>
 		<script>
-			$(document).ready(function(){		
-<?php			for($i = 1; $i < 7; $i++){
+			$(document).ready(function(){						//function to drop down tables
+<?php			for($i = 1; $i < 8; $i++){
 ?>
 				$("#hide<?=$i?>").click(function(){
 					document.getElementById("body<?=$i?>").className = 'unhidden';
@@ -154,24 +228,19 @@
 		<link href="css/m-styles.min.css" rel="stylesheet">
 		</head>
 		<body>
-			<img src="intralogo.jpg" alt="" id="logo">
-			<div class="ui-widget" id="cont10">
-				<input id="guser" type="text" class="m-wrap m-ctrl-huge" placeholder="search client email">
+			<img id="logo" src="intralogo.jpg" alt="Intralinks" title= "click to restore default" >						<!--LOGO/RESTORE-->
+			<div class="ui-widget" id="card10">
+				<input id="guser" type="text" class="m-wrap m-ctrl-huge" placeholder="search client email">				<!--SEARCH BAR-->
 				<button id="guserclear" href="#" class="m-btn rnd" onclick="clearInput('guser')">clear</button>
 			</div>
-			<div id="cont8"></div>											
+			<div id='card8'></div>																					<!--NAME-->										
 			
-			<div id="cont11">
-				<a href="templink.html" class="actionlink m-btn rnd">new password</a><br/>
-				<a href="templink.html" class="actionlink m-btn rnd">update profile</a><br/>
-				<a href="http://wildeastmusic.bandcamp.com" class="actionlink m-btn rnd">merge</a><br/>
-				<a href="templink.html" class="actionlink m-btn rnd">suspend</a><br/>
-				<a href="templink.html" class="actionlink m-btn rnd">deregister</a><br/>
-				<a href="templink.html" class="actionlink m-btn rnd">clear new flag</a><br/>
-				<a href="templink.html" class="actionlink m-btn rnd">new alias</a><br/>
-			</div>
+			
 			<div id="data">
-			<div class="cont" id="cont1">
+			<div id="card11" class="card">																						<!--DAYS UNTIL PASSWORD EXPIRES-->
+				<caption>CHANGE PASSWORD IN</caption><br/>
+			</div>
+			<div class="card" id="card1">																				<!--PROFILE DATA-->
 				<!--<span id="profleft">
 				<span class="profileitem"><strong>Organization:</strong>  The Name of an Organization</span>
 				<span class="profileitem"><strong>Primary Email:</strong> </span>
@@ -186,53 +255,20 @@
 				<span class="profileitem"><strong>Alerts:</strong> </span>
 				</span>-->
 			</div>			
-			<div id="cont9">
-				<span id="question">What is the answer to life, the universe, and everything?</span> 				<!-- temp question text -->
+			<div id="card9">																							<!--SECURITY Q (temp question text)-->
+				<span id="question">What is the answer to life, the universe, and everything?</span>
 				<button id="toggle" class="m-btn  rnd">show</button>
 			</div>						
-			<div class="cont" id="cont7">
-				<span><strong>most recent user agent:</strong> mozilla firefux</span>				
+			<div class="card" id="card7">																				<!--CLIENT AGENT DATA-->
+				<span><strong>most recent user agent:</strong> mozilla firefux</span><br/><br/>
+				<span><strong>client OS:</strong> windows 95</span><br/><br/>
+				<span><strong>IPA:</strong> 127.0.0.1</span><br/><br/>
+				<span><strong>mount point:</strong> USA</span>
 			</div>
 			<div id="bottom">
-			<div class="cont" id="cont2">
-					<table class="table" id="dept" style="width:100%">
-						<caption>DEPARTMENTS</caption>
-						<tr>	
-							<th>name</th>
-							<th>org</th> 
-							<th>description</th>
-							<th><span class="end">label</span><a href="#hide1" class="hide" id="hide1">+</a>
-								<a href="#show1" class="show" id="show1">-</a>
-							</th>
-						</tr>
-					<tbody class="hidden" id="body1">
-					<tr>
-						<td>a dept</td>
-						<td>an org</td>
-						<td>some description</td>
-						<td>a label</td>
-					</tr>
-					<tr>
-						<td>a dept</td>
-						<td>an org</td>
-						<td>some description</td>
-						<td>a label</td>
-					</tr>	
-					<tr>
-						<td>a dept</td>
-						<td>an org</td>
-						<td>some description</td>
-						<td>a label</td>
-					</tr>	
-					<tr>
-						<td>a dept</td>
-						<td>an org</td>
-						<td>some description</td>
-						<td>a label</td>
-					</tr>	
-					</tbody>
-				</table>
-				<table class="table" id="workspace" style="width:100%">
+			<div class="card" id="card2">																				<!--2ND LVL CARD-->
+					
+				<table class="table" id="workspace" style="width:100%">													<!--WORKSPACES-->
 					<caption>WORKSPACES</caption>
 					<tr>
 						<th>2 Workspaces</th>
@@ -241,11 +277,11 @@
 						<th>Role</th>
 						<th>Status</th>
 						<th>Last accessed</th>
-						<th><span class="end">Support</span><a href="#hide2" class="hide" id="hide2">+</a>							<!--temp num workspaces-->
+						<th><span class="end">Support</span><a href="#hide2" class="hide" id="hide2">+</a>							
 							<a href="#show2" class="show" id="show2">-</a>
 						</th>
 					</tr>
-					<tbody class="hidden" id="body2">														<!--temp table bodies ↓ -->
+					<tbody class="hidden" id="body2">								<!--temp table bodies ↓ -->
 					<tr>
 						<td>a workspace</td>
 						<td>a type</td>
@@ -292,12 +328,44 @@
 						<td>the support5</td>
 					</tr>				
 					</tbody>
-				</table>			
+				</table>
+				<table class="table" id="businessgroups" style="width:100%">											<!--BUSINESS GROUPS-->
+					<caption>BUSINESS GROUPS</caption>
+					<tr>
+						<th>group</th> 
+						<th><span class="end">something else</span>
+							<a href="#hide7" class="hide right" id="hide7">+</a>
+							<a href="#show7" class="show right" id="show7">-</a>
+							</th>
+					</tr>
+					<tbody class="hidden" id="body7">
+					<tr>
+						<td>a group</td>
+						<td>a thing</td>
+					</tr>
+					<tr>
+						<td>a group</td>
+						<td>a thing</td>
+					</tr>
+					<tr>
+						<td>a group</td>
+						<td>a thing</td>
+					</tr>
+					<tr>
+						<td>a group</td>
+						<td>a thing</td>
+					</tr>
+					<tr>
+						<td>a group</td>
+						<td>a thing</td>
+					</tr>
+					</tbody>
+				</table>
 				
 			</div>
-			<div class="cont" id="cont3">
+			<div class="card" id="card3">																				<!--3RD LVL CARD-->
 				<div id="summary">	
-				<h1>STATUS SUMMARY</h1>			
+				<h1>STATUS SUMMARY</h1>																					<!--STATUS SUMMARY-->
 				<div id="statusdata">
 					<p><strong>Il Status:</strong> </p>
 					<p><strong>Created:</strong> </p>
@@ -308,7 +376,7 @@
 				</div>			
 			</div>
 			
-				<table class="table" id="dept" style="width:100%">
+				<table class="table" id="statuschanges" style="width:100%">												<!--STATUS CHANGES-->
 					<caption>STATUS CHANGES</caption>
 					<tr>
 						<th><a href="#hide3" class="hide left" id="hide3">+</a>
@@ -344,7 +412,7 @@
 					</tbody>
 				</table>
 				
-				<table class="table" id="dept" style="width:100%">
+				<table class="table" id="flag" style="width:100%">														<!--FLAG CHANGES-->
 					<caption>FLAG CHANGES</caption>
 					<tr>
 						<th><a href="#hide4" class="hide left" id="hide4">+</a>
@@ -388,7 +456,7 @@
 					</tbody>
 				</table>
 				
-				<table class="table" id="dept" style="width:100%">
+				<table class="table" id="matches" style="width:100%">													<!--CLOSE MATCHES-->
 					<caption>CLOSE MATCHES</caption>
 					<tr>
 						<th><a href="#hide5" class="hide left" id="hide5">+</a>
@@ -426,7 +494,7 @@
 					</tbody>
 				</table>
 				
-				<table class="table" id="dept" style="width:100%">
+				<table class="table" id="profilechanges" style="width:100%">											<!--PROFILE CHANGES-->
 					<caption>PROFILE CHANGES</caption>
 					<tr>
 						<th><a href="#hide6" class="hide left" id="hide6">+</a>
@@ -464,18 +532,59 @@
 					</tbody>
 				</table>			
 			</div>
-			<div id="lowest">
-			<div class="cont" id="cont4">
+			<div id="lowest">																							<!--3RD LVL CARDS-->
+			<div class="card" id="card4">																				<!--SPECIAL INSTRUCTION-->
 				SPECIAL INSTRUCTION
 				<p>----data-----</p>
 			</div>
-			<div class="cont" id="cont5">
+			<div class="card" id="card5">																				<!--RECENT ALERTS-->
 				MOST RECENT ALERTS
 				<p>----data-----</p>
 			</div>
-			<div class="cont" id="cont6">
-				BUSINESS GROUP INFO
+			<div class="card" id="card6">																				<!--DEPARTMENTS-->
+			<table class="table" id="dept" style="width:100%">														
+						<caption>DEPARTMENTS</caption>
+						<tr>	
+							<th>name</th>
+							<th>org</th> 
+							<th>description</th>
+							<th><span class="end">label</span><a href="#hide1" class="hide" id="hide1">+</a>
+								<a href="#show1" class="show" id="show1">-</a>
+							</th>
+						</tr>
+					<tbody class="hidden" id="body1">
+					<tr>
+						<td>a dept</td>
+						<td>an org</td>
+						<td>some description</td>
+						<td>a label</td>
+					</tr>
+					<tr>
+						<td>a dept</td>
+						<td>an org</td>
+						<td>some description</td>
+						<td>a label</td>
+					</tr>	
+					<tr>
+						<td>a dept</td>
+						<td>an org</td>
+						<td>some description</td>
+						<td>a label</td>
+					</tr>	
+					<tr>
+						<td>a dept</td>
+						<td>an org</td>
+						<td>some description</td>
+						<td>a label</td>
+					</tr>	
+					</tbody>
+				</table>
+				
+			</div>
+			<div class="card" id ="card12">
+				TICKET HISTORY
 				<p>----data-----</p>
+				
 			</div>
 			</div>
 			</div>

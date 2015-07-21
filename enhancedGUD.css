@@ -26,23 +26,29 @@ a{
 	width: 100px;
 	float: right;
 }
-#cont8{
+#card10{
+	margin-top: 20px;
+	width: 80%;
+}
+#card8{
 	color: #4C4C4C;
 	display: block;
 	font-size: 15pt;
 	margin-top: 75px;
 	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
 }
-.cont{
+.card{
 	background-color: #E0F9F4;
-	border-radius: 5px;
+	border-radius: 4px;
 	box-shadow: 2px 8px 5px #888888;
 }
-#cont1{
+#card1{
 	height: 100%;
 	width: 60%;
 	min-height: 150px;
-	margin-left: auto;
+	margin-left: 15%;
 	margin-right: auto;
 	
 	-webkit-columns: 2; /* Chrome, Safari, Opera */
@@ -62,7 +68,7 @@ a{
 	display: block;	
 	font: 12pt Segoe UI, Helvetica, Arial, sans-serif;
 }
-#cont9{
+#card9{
 	text-align: center;
 	margin: 10px;
 	font-size: 13pt;
@@ -76,29 +82,31 @@ a{
 	height: 50px;
 	font-size: 13.5pt;
 }
-#cont11{
+#card11{
 	float: left;
+	padding: 10px;
 }
 .actionlink{
 	display: block;
 	height: 5px;
 	width: 85px;
 }
-#cont7{
+#card7{
 	display: inline;
 	padding: 5px;
 	padding-top: 10px;
 	padding-bottom: 10px;
 	float: right;
-	margin-right: 15px;
-	margin-top: -40px;
+	margin-right: 13px;
+	margin-top: -50px;
+	margin-bottom: -5px;
 }
 #bottom{
 	margin-top: 20px;
 	margin-left: 8px;
 	margin-right: 13px;
 }
-#cont2{
+#card2{
 	display: inline;
 	float: left;
 	min-height: 200px;
@@ -107,7 +115,7 @@ a{
 	margin-bottom: 20px;
 }
 
-#cont3{
+#card3{
 	display: inline;
 	float: right;
 	min-height: 300px;
@@ -181,28 +189,49 @@ th{
 #statusdata p{
 	margin-top:0;
 }
-#cont4{
+#card4{
 	float: left;
-	width: 31%;
+	width: 23.5%;
 	margin-right: 10px;
 }
-#cont5{
+#card5{
 	float: left;
-	width: 31%;
+	width: 23.5%;
 	margin-right: 10px;
 }
 
-#cont6{
+#card6{
 	float: left;
-	width: 31%;
+	width: 46%;
 	margin-right: 10px;
+	padding-top: 4px;
+}
+#card12{
+	float: left;
+	width: 90%;
+	margin-left: 20px;
+	margin-top: 20px;
+	text-align: center;
+	min-height: 200px;
 }
 #lowest{
 	float: left;
 	display: block;
-	width: 46%;
+	width: 48%;
 	margin-left: 10px;
+}
+#dept{
+	margin-top: -3px;
 }
 #data{
 	display: none;
+}
+.bigtext{
+	font-size: 20pt;
+	text-align: center;
+}
+.ui-menu .ui-menu-item {
+    background:#E0F9F4;
+	border-radius: 5px;
+	margin-top: 3px;
 }
