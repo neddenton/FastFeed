@@ -18,6 +18,8 @@
 				background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
 			}
 		</style>
+		<script src='nprogress.js'></script>
+		<link rel='stylesheet' href='nprogress.css'/>
 		<script>
 		<?php 	
 				$id = 12346;			//hardcoded user ID (to save formatting)
@@ -48,7 +50,12 @@
 					"<span class='profileitem'><strong>Password Last Modified: </strong>"+data[0].passModDate+"</span>"+
 					"<span class='profileitem'><strong>Organization ID: </strong>"+data[0].orgID+"</span></div>");
 					document.getElementById("question").innerHTML = data[0].authQuestion;
-					document.getElementById("card11").innerHTML = "<div class='title'>CHANGE PASSWORD IN<div class='bigtext'>"+data[0].pwExpIn+ " days</div></div><br/>";
+					if(data[0].pwExpIn == 0)
+						document.getElementById("card11").innerHTML = "<div class='title'>PASSWORD</div><div class='bigtext'>expires today!</div><br/>";
+					else if(data[0].pwExpIn < 0)
+						document.getElementById("card11").innerHTML = "<div class='title'>PASSWORD</div><div class='bigtext'>expired</div><br/>";
+					else
+						document.getElementById("card11").innerHTML = "<div class='title'>CHANGE PASSWORD IN</div><div class='bigtext'>"+data[0].pwExpIn+" days</div><br/>";
 					
 				}
 				function getWorkspaces(email){
@@ -59,36 +66,59 @@
 				}
 				function logWorkspaces(){
 					var data = JSON.parse(this.responseText);
+					if(data == null)
+						NProgress.done();
 					var numSpaces = data.length;
 					document.getElementById("numSpaces").innerHTML = (numSpaces+" workspaces");
 					for(var i = 0; i<numSpaces; i++){
 					document.getElementById("body2").innerHTML += 
-					"<tr> <td>"+data[i].name+"</td>"+
+					"<tr> <td><a href='https://services.intralinks.com/servlets/gud?page=WSPL&wsID="+data[i].id+"'>"+data[i].name+"</a></td>"+
 					"<td>"+data[i].id+"</td>"+
 					"<td>"+data[i].prodName+"</td>"+
 					"<td>"+data[i].code+"</td>"+
 					"<td>"+data[i].lastAccessed+"</td>"+
 					"<td>"+data[i].accessCount+"<td></tr>";
 					}
-					
+					NProgress.done();
+				}
+				function getAgent(email){
+					var request = new XMLHttpRequest();
+					request.onload = logAgent;
+					request.open("GET", "searchAgent.php?email=" + email, true);
+					request.send();
+				}
+				function logAgent(){
+					var data = JSON.parse(this.responseText);
+				}
+				function getStati(email){
+					var request = new XMLHttpRequest();
+					request.onload = logStati;
+					request.open("GET", "searchStati.php?email=" + email, true);
+					request.send();
+				}
+				function logStati(){
+					var data = JSON.parse(this.responseText);
 				}
 				$( "#guser" ).autocomplete({
 					source: "search.php",
 					minLength: 4,
 					select: function( event, ui ) {
 					clearData();
+					NProgress.start();
 					logName( ui.item ? ui.item.firstName + " " + ui.item.lastName: "Not found, input was " + this.value);	
 					logEmail( ui.item ? "</span><span class='profileitem'><strong>Primary Email: </strong>" + ui.item.email					
 					: "Not found, input was " + this.value);
 					displayData();
 					getProf(ui.item ? ui.item.email: "Not found, input was " + this.value);
 					getWorkspaces(ui.item ? ui.item.email: "Not found, input was " + this.value);
+					getAgent(ui.item ? ui.item.email: "Not found, input was " + this.value);
+					getStati(ui.item ? ui.item.email: "Not found, input was " + this.value);
 				}
 				
 				});
 				function clearData(){
 					document.getElementById("body2").innerHTML = "";
-					
+					document.getElementById("numSpaces").innerHTML = "workspaces";
 				}
 			
 		
@@ -97,6 +127,12 @@
 		<script>
 		function clearInput(elementID) {
 			document.getElementById(elementID).value = '';
+		}
+		function freeze(){
+			if(document.getElementById("mrfreeze").innerHTML == "freeze")
+				document.getElementById("mrfreeze").innerHTML = "melt";				
+			else
+				document.getElementById("mrfreeze").innerHTML = "freeze";
 		}
 		</script>
 		<script>
@@ -186,6 +222,7 @@
 					}
 				};
 				function dragMouseDown(event){
+					if(document.getElementById("mrfreeze").innerHTML == "freeze"){
 <?php				for($i = 1; $i < 13; $i++){
 ?>					if(card<?=$i?>.style.zIndex == "")
 						card<?=$i?>.style.zIndex =  1;
@@ -200,6 +237,7 @@
 					this.dragging = true;
 					this.prevX = event.clientX;
 					this.prevY = event.clientY;
+					}
 				}	
 				function dragMouseUp(){
 					this.dragging = false;
@@ -238,6 +276,7 @@
 		<link href="css/m-styles.min.css" rel="stylesheet">
 		</head>
 		<body>
+			<button id="mrfreeze" href="#" class="m-btn rnd" onclick="freeze()">melt</button>
 			<img id="logo" src="intralogo.jpg" alt="Intralinks" title= "click to restore default" >						<!--LOGO/RESTORE-->
 			<div class="ui-widget" id="card10">
 				<input id="guser" type="text" class="m-wrap m-ctrl-huge" placeholder="search client email">				<!--SEARCH BAR-->

@@ -36,7 +36,7 @@ WHERE     wla.workspace_id = w.workspace_id
        AND w.workspace_type_id = 1 
        AND u.username = '$email'
        --AND w.arc_enabled = 'N' -- IL5 exchanges
-      ORDER BY 4";
+      ORDER BY wla.last_accessed_date DESC";
 ;
 
 		$stid = oci_parse($conn, $qstring);
@@ -46,7 +46,7 @@ WHERE     wla.workspace_id = w.workspace_id
 			$colname = oci_field_name($stid, $i);
 		}
 		while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)){
-			$row_set[] = array('name'=>$row['Name'], 'code'=>$row['Product Code'], 'id'=>$row['ID'], 'prodName'=>$row['Product Name'], 'userID'=>$row['User ID'], 'accessCount'=>$row['Access Count'],
+			$row_set[] = array('name'=>$row['Name'], 'code'=>$row['Product Code'], 'id'=>$row['ID'], 'prodName'=>$row['Product Name'], 'accessCount'=>$row['Access Count'],
 			'lastAccessed'=>$row['Last Accessed']);
 		}
 		echo json_encode($row_set);

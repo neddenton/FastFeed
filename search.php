@@ -8,11 +8,11 @@ if (!$conn) {
 		$term = $_GET['term'];
 		if(stripos($term, " ") === FALSE){
 			$term = trim($_GET['term']);
-			$qstring = "SELECT EMAIL_ADDRESS,FIRST_NAME,LAST_NAME FROM il_owner.il_user WHERE lower(EMAIL_ADDRESS) LIKE lower('$term%') ORDER BY FIRST_NAME ASC";
+			$qstring = "SELECT EMAIL_ADDRESS,FIRST_NAME,LAST_NAME FROM il_owner.il_user WHERE lower(EMAIL_ADDRESS) LIKE lower('%$term%') ORDER BY FIRST_NAME ASC";
 		}
 		else{
 			$term = preg_replace('/\s+/', '', $_GET['term']);
-			$qstring = "SELECT EMAIL_ADDRESS,FIRST_NAME,LAST_NAME FROM il_owner.il_user WHERE lower(CONCAT(REGEXP_REPLACE(FIRST_NAME, '\s*', ''),REGEXP_REPLACE(LAST_NAME, '\s*', ''))) LIKE lower('$term%') ORDER BY FIRST_NAME ASC";
+			$qstring = "SELECT EMAIL_ADDRESS,FIRST_NAME,LAST_NAME FROM il_owner.il_user WHERE lower(CONCAT(REGEXP_REPLACE(FIRST_NAME, '\s*', ''),REGEXP_REPLACE(LAST_NAME, '\s*', ''))) LIKE lower('%$term%') ORDER BY FIRST_NAME ASC";
 		}
 		$stid = oci_parse($conn, $qstring);
 		oci_execute($stid);

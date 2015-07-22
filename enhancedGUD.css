@@ -13,13 +13,15 @@ a{
 }
 #guser{
 	font-size: 14pt;
-	margin-left: 50px;
+	margin-left: 80px;
 	height: 20px;
+	margin-top: -50px;
 }
 #guserclear{
 	height: 50px;
 	font-size: 13pt;
 	margin-left: 5px;
+	top: -45px;
 }
 #logo{
 	height: 100px;
@@ -244,12 +246,14 @@ th{
 	font-size: 12pt;
 	color: #000000;
 	text-transform: uppercase;
-	text-shadow: 2px 2px 1px #FFFFFF;
-	/*background-color: #666666;*/
+	text-shadow: 3px 2px 1px #FFFFFF;
 	border-radius: 3px;
 }
 .ui-menu .ui-menu-item {
     background:#E0F9F4;
 	border-radius: 5px;
 	margin-top: 3px;
+}
+#mrfreeze{
+	top: 20px;
 }
