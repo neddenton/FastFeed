@@ -15,13 +15,15 @@ a{
 	font-size: 14pt;
 	margin-left: 80px;
 	height: 20px;
-	margin-top: -50px;
+	margin-top: -70px;
+	z-index:0;
 }
 #guserclear{
 	height: 50px;
 	font-size: 13pt;
 	margin-left: 5px;
-	top: -45px;
+	top: -66px;
+	z-index:0;
 }
 #logo{
 	height: 100px;
@@ -52,8 +54,9 @@ a{
 	height: 100%;
 	width: 60%;
 	min-height: 150px;
-	margin-left: 15%;
+	margin-left: 20%;
 	margin-right: auto;
+	margin-top: -50px;
 }
 .twocol{
 	-webkit-columns: 2; /* Chrome, Safari, Opera */
@@ -126,7 +129,7 @@ a{
 #card3{
 	display: inline;
 	float: right;
-	min-height: 300px;
+	min-height: 130px;
 	width: 47%;
 	min-width: 450px;
 	margin-bottom: 20px;
@@ -169,18 +172,7 @@ th{
 	text-align: left;
 }
 
-#summary{
-	min-height: 150px;
-	width: 95%;
-	margin-left: 10px;
-	margin-right: auto;
-	margin-top: 10px;
-	background-color: #fff;
-	border-radius: 5px;
-	box-shadow: 1.5px 6px 5px #888888;
-	z-index: 2;
-	
-}
+
 #summary h1{
 	margin-left: 10px;
 	font-size: 11pt;
@@ -226,6 +218,8 @@ th{
 	display: block;
 	width: 48%;
 	margin-left: 10px;
+	position: absolute;
+	top: 800px;
 }
 #dept{
 	margin-top: -3px;
@@ -255,5 +249,62 @@ th{
 	margin-top: 3px;
 }
 #mrfreeze{
-	top: 20px;
+width: 50px;
+height: 50px;
+	top: 0px;
+}
+#attiviotable{
+	min-width: 220px;
+	height: 60px;
+	margin-top: -115px;
+	margin-right: 100px;
+	float: right;
+	display: none;
+}
+#attivioinput{
+	margin-top: -47px;
+	
+}
+#attiviosearch{
+	top: -72px;
+	display: block;
+	left: 223px;
+}
+#attivioresults{
+	max-width: 35%;
+	display: inline-block;
+	position: relative;
+	top: -60px;
+}
+#snow{
+	height: 30px;
+	width: 40px;
+}
+#fire{
+	height: 30px;
+	width: 45px;
+}
+#sorter{
+	float: right;
+	display: inline-block;
+	margin-right: 15px;
+	margin-top: -2px;
+	margin-bottom: -10px;
+}
+#card14{
+	width: 100%;
+	float: right;
+	}
+#righty{
+	position: absolute;
+	top: 800px;
+	width: 40%;
+	left: 55%;
+}
+#card15{
+	width: 15%;
+}
+#card16{
+	width: 15%;
+	margin-top: -100px;
 }
