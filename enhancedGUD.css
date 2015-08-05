@@ -56,7 +56,6 @@ a{
 	min-height: 150px;
 	margin-left: 20%;
 	margin-right: auto;
-	margin-top: -50px;
 }
 .twocol{
 	-webkit-columns: 2; /* Chrome, Safari, Opera */
@@ -113,7 +112,7 @@ a{
 	padding: 10px;
 }
 #bottom{
-	margin-top: 20px;
+	margin-top: 10px;
 	margin-left: 8px;
 	margin-right: 13px;
 }
@@ -121,8 +120,7 @@ a{
 	display: inline;
 	float: left;
 	min-height: 200px;
-	width: 47%;
-	min-width: 450px;
+	width: 55%;
 	margin-bottom: 20px;
 }
 
@@ -130,8 +128,7 @@ a{
 	display: inline;
 	float: right;
 	min-height: 130px;
-	width: 47%;
-	min-width: 450px;
+	width: 42%;
 	margin-bottom: 20px;
 }
 
@@ -294,6 +291,8 @@ height: 50px;
 #card14{
 	width: 100%;
 	float: right;
+	margin-top: -5px;
+	margin-right: -37px;
 	}
 #righty{
 	position: absolute;
@@ -301,10 +300,11 @@ height: 50px;
 	width: 40%;
 	left: 55%;
 }
-#card15{
-	width: 15%;
-}
+
 #card16{
 	width: 15%;
-	margin-top: -100px;
+	margin-top: -50px;
+}
+tbody{
+	font-size: 8pt;
 }

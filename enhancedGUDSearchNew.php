@@ -24,7 +24,7 @@
 		<?php 	
 				$id = 12346;			//hardcoded user ID (to save formatting)
 		?>
-			$primeemail = "";
+			var primeemail = "";
 			$(function() {				//function to autocomplete and display all fields
 				function displayData(){
 					$("#data").show();
@@ -35,16 +35,15 @@
 				function logEmail(email){
 					$("#card1").html(email);
 				}
-				function getProf(email){
-					$primeemail = email;
+				function getProf(email){									//get profile data
+					primeemail = email;
 					var request = new XMLHttpRequest();
 					request.onload = logProf;
 					request.open("GET", "searchProfData.php?email=" + email, true);
 					request.send();
 				}
-				function logProf(){
+				function logProf(){																//report profile data
 					var data= JSON.parse(this.responseText);
-					console.log(data);
 					$("#card1").html("<div class='title'>PROFILE INFO</div><div class='twocol'>"+
 					"<span class='profileitem'><strong>Primary Email: </strong>"+data[0].EMAIL_ADDRESS+"</span>"+
 					"<span class='profileitem'><strong>User ID: </strong>"+data[0].USER_ID+"</span>"+
@@ -55,56 +54,80 @@
 					"<span class='profileitem'><strong>Organization Name: </strong>"+data[0].ORG_NAME+"</span>"+
 					"<span class='profileitem'><strong>Telephone: </strong>"+data[0].TELEPHONE_NUMBER+"</span>"+
 					"<span class='profileitem'><strong>Mobile Phone: </strong>"+data[0].MOBILE_PHONE+"</span>"+
+					"<span class='profileitem'><strong>Alias Email: </strong>"+data[0].CC_EMAIL+"</span>"+
 					"<span class='profileitem'><strong>Fax Number: </strong>"+data[0].FAX_NUMBER+"</span></div>");
 					document.getElementById("question").innerHTML = data[0].authQuestion;
-					if(data[0].pwExpIn == 0)
+					if(data[0].PW_EXPIRING_IN == 0)
 						document.getElementById("card11").innerHTML = "<div class='title'>PASSWORD</div><div class='bigtext'>expires today!</div><br/>";
-					else if(data[0].pwExpIn < 0)
+					else if(data[0].PW_EXPIRING_IN < 0)
 						document.getElementById("card11").innerHTML = "<div class='title'>PASSWORD</div><div class='bigtext'>expired</div><br/>";
 					else
 						document.getElementById("card11").innerHTML = "<div class='title'>CHANGE PASSWORD IN</div><div class='bigtext'>"+data[0].PW_EXPIRING_IN+" days</div><br/>";
-					var request = new XMLHttpRequest();
+					var request = new XMLHttpRequest();		//get contacts
 					request.onload = logPersonel;
 					request.open("GET", "getPersonel.php?orgid=" + data[0].ORGANIZATION_ID, true);
 					request.send();
 				}
-				function getWorkspaces(email, sorter){
-					console.log(sorter);
-					console.log(email);
+				function getWorkspaces(email, sorter){							//get workspace data
 					var request = new XMLHttpRequest();
 					request.onload = logWorkspaces;
 					request.open("GET", "searchWorkData.php?email=" + email + "&sorter="+sorter, true);
 					request.send();
 				}
-				function logWorkspaces(){
+				function logWorkspaces(){									//report workspace data
 					var data = JSON.parse(this.responseText);
 					document.getElementById("body2").innerHTML = "";
-					console.log(data);
+					document.getElementById("body7").innerHTML = "";
 					if(data == null)
 						var nully = null;
 					else{
 					var numSpaces = data.length;
 					document.getElementById("numSpaces").innerHTML = (numSpaces+" workspaces");
-					for(var i = 0; i<numSpaces; i++){
+					for(var i = 0; i<numSpaces; i++){	//loop through all reported workspaces
 						$icon = data[i].code;
-						if(data[i].code == 0)
+						if(data[i].ConcurrentLoginDisabled == "Y")
+							$concurrent = "disabled";
+						else
+							$concurrent = "enabled";
+						if(data[i].KeyContact == null)
+							$key = "";
+						else
+							$key = data[i].KeyContact;
+						if(data[i].AccessCount == null)
+							$count = "";
+						else
+							$count = data[i].AccessCount;
+						if(data[i].VerticalID == 0)
 							$icon = "<img width='20px' height='30px' src='ilp.jpg'>";
-						else if(data[i].code == 60)
-							$icon = "<img width='20px' height='30px' src='courier.jpg'>";
-						else if(data[i].code == 61)
+						else if(data[i].VerticalID == 60)
+							$icon = "<img width='20px' height='30px' src='courier.gif'>";
+						else if(data[i].VerticalID == 61)
 							$icon = "<img width='20px' height='30px' src='via.jpg'>";
-						else if(data[i].code == 11 || data[i].code == 14)
+						else if(data[i].VerticalID == 11 || data[i].VerticalID == 14)
 							$icon = "<img width='20px' height='30px' src='manda.jpg'>";
 					document.getElementById("body2").innerHTML += 
-					"<tr> <td><a href='https://services.intralinks.com/servlets/gud?page=WSPL&wsID="+data[i].id+"'>"+data[i].name+"</a>  "+$icon+"</td>"+
-					"<td>"+data[i].id+"</td>"+
-					"<td>"+data[i].prodName+"</td>"+
-					"<td>"+data[i].lastAccessed+"</td>"+
-					"<td>"+data[i].accessCount+"<td></tr>";
+					"<tr> <td><a href='https://services.intralinks.com/servlets/gud?page=WSPL&wsID="+data[i].ID+"'>"+data[i].ExchangeName+"</a>  "+$icon+"</td>"+
+					"<td>"+data[i].ID+"</td>"+
+					"<td>"+data[i].LastAccessed+"</td>"+
+					"<td>"+data[i].ExchangeStatus+"</td>"+
+					"<td>"+data[i].Phase+"</td>"+
+					"<td>"+data[i].Host+"</td>"+
+					"<td>"+data[i].Role+"</td>"+
+					"<td>"+$concurrent+"</td>"+
+					"<td>"+data[i].PvP+"</td>"+
+					"<td>"+data[i].Support+"</td>"+
+					"<td>"+data[i].PluginlessIRM+"</td>"+
+					"<td>"+$key+"</td>"+
+					"<td>"+$count+"</td>"+
+					"</tr>";
+					document.getElementById("body7").innerHTML += 
+					"<td>"+data[i].BusinessGroup+"</td>"+
+					"<td>"+data[i].BGID+"</td>"+
+					"</tr>";
 					}
 					}
 				}
-				function getAgent(id){
+				function getAgent(id){											//get agent data from splunk
 					document.getElementById("card7").innerHTML = "<div class='title'>USER AGENT</div>";
 					NProgress.configure({ parent: '#card7' });
 					var request = new XMLHttpRequest();
@@ -112,12 +135,12 @@
 					request.open("GET", "searchAgent.php?id=" + id, true);
 					request.send();
 				}
-				function logAgent(){
+				function logAgent(){					//report agent data
 					var data = JSON.parse(this.responseText);
 					var ipa = data.result._raw.substring(0, Math.min(data.result._raw.indexOf(","), data.result._raw.indexOf(" ")));
 					var mid1 = data.result._raw.substring(Math.min(data.result._raw.indexOf(","), data.result._raw.indexOf(" ")), data.result.length);
 					if(mid1.indexOf(" \"GET") != -1){
-						var mid2 = mid1.substring(mid1.indexOf(" \"GET"), mid1.length);
+						var mid2 = mid1.substring(mid1.indexOf(" \"GET"), mid1.length);							//parsing of splunk string
 						var mid3 = mid2.substring(mid2.indexOf("https"), mid2.length);
 					}
 					else{
@@ -132,9 +155,9 @@
 				"<span><strong>Last Known User Agent: </strong>"+useragent.replace(/ \(/g, "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(")+"</span><br/>"+
 				"<span><strong>Last Known Time of Access: </strong>"+data.result._time+ "</span><br/>"+
 				"<span><strong>Last Known Source of Data: </strong>"+ data.result.index+"</span>";
-					NProgress.done();
+					NProgress.done();				//end progress bar
 				}
-				function getStati(email){
+				/*function getStati(email){
 					var request = new XMLHttpRequest();
 					request.onload = logStati;
 					request.open("GET", "searchStati.php?email=" + email, true);
@@ -142,22 +165,12 @@
 				}
 				function logStati(){
 					var data = JSON.parse(this.responseText);
-				}
-				function getCSM(email){
-					var request = new XMLHttpRequest();
-					request.onload = logCSM;
-					request.open("GET", "getCSM.php?email=" + email, true);
-					request.send();
-				}
-				function logCSM(){
-					var data = JSON.parse(this.responseText);
-					document.getElementById("card15").innerHTML = "<div class='title'>SPECIAL INSTRUCTION</div><br/>";//+data[0].INSTRUCTION;
-				}
-				function logPersonel(){
+				}*/
+				/*function logPersonel(){
 					var data = JSON.parse(this.responseText);
 					document.getElementById("card16").innerHTML = "<div class='title'>INTRALINKS CONTACTS</div><br/>";//+data[0].CSM+data[0].SALES;
-				}
-				$( "#guser" ).autocomplete({
+				}*/
+				$( "#guser" ).autocomplete({									//autocomplete with triggered functions
 					source: "search.php",
 					minLength: 4,
 					select: function( event, ui ) {
@@ -172,7 +185,7 @@
 					getWorkspaces(ui.item ? ui.item.email: "Not found, input was " + this.value, document.getElementById("sorter").value);
 					NProgress.configure({ parent: '#card7' });
 					getAgent(ui.item ? ui.item.id: "Not found, input was " + this.value);
-					getCSM(ui.item ? ui.item.id: "Not found, input was " + this.value);
+					getInstruction(ui.item ? ui.item.email: "Not found, input was " + this.value);
 					//getStati(ui.item ? ui.item.email: "Not found, input was " + this.value);
 				}
 				
@@ -190,10 +203,10 @@
 		});
 		</script>
 		<script>
-		function clearInput(elementID) {
+		function clearInput(elementID) {														//clear searchbar
 			document.getElementById(elementID).value = '';
 		}
-		function freeze(){
+		function freeze(){												//toggle dragging of cards
 			$fireHtml = "<img src='flame.png' id='fire'>";
 			$iceHtml = "<img src='snowflake.png' id='snow'>";
 			if(document.getElementById("mrfreeze").value == 2){
@@ -216,12 +229,12 @@
 				else
 					answer.innerHTML = "show";
 			});
-			$("#logo").click(function(){
+			$("#logo").click(function(){							//restore default positioning of cards
 <?php			for($i = 1; $i < 17; $i++){
 ?>					var card<?=$i?> = document.getElementById("card<?=$i?>");
 					card<?=$i?>.style.top ="0px";
 					card<?=$i?>.style.left = "0px";
-					card<?=$i?>.style.zIndex = 0;			
+					card<?=$i?>.style.zIndex = 0;
 					$.ajax({
 						type: "POST",
 						url: "logPosition.php",
@@ -231,9 +244,9 @@
 <?php			}
 ?>			
 			});
-			$("#logo").hover(attivioIn, attivioOut);
+			$("#logo").hover(attivioIn, attivioOut);				//show attivio metadata
 			
-			function attivioIn(){
+			function attivioIn(){	
 				var request = new XMLHttpRequest();
 					request.onload = loadAttivio;
 					request.open("GET", "getAttivio.php", true);
@@ -274,8 +287,10 @@
 		});
 		</script>
 		<script>
-			$(document).ready(function(){	
+			$(document).ready(function(){												//search for an atticio doc/
 				document.getElementById("attiviosearch").onclick = searchAttivio;
+				document.getElementById("save").onclick = logInstruction;
+				document.getElementById("refresh").onclick = getInstruction(primeemail);
 			});		
 			function searchAttivio(){
 				if(document.getElementById("attivioinput").value == "")
@@ -290,11 +305,30 @@
 			}
 			function logAttivioDoc(){
 				var data = JSON.parse(this.responseText);
-				document.getElementById("attivioresults").innerHTML = "<strong>Doc Name:</strong> "+data[0].name+"<br/>"+
-					"<strong> Satus:</strong> "+data[0].status+"<br/>"+
-					"<strong> Date Created:</strong> "+data[0].date+"<br/>"+
-					"<strong> File Extension:</strong> "+data[0].ext+"<br/>"+
-					"<strong> Page Count:</strong> "+data[0].pagecount+"<br/>";
+				document.getElementById("attivioresults").innerHTML = "<strong>Doc Name:</strong> "+data[0].DocName+"<br/>"+
+					"<strong> Satus:</strong> "+data[0].OCR_FILE_STATUS+"<br/>"+
+					"<strong> Date Created:</strong> "+data[0].CreatedDate+"<br/>"+
+					"<strong> File Extension:</strong> "+data[0].FileExt+"<br/>"+
+					"<strong> Page Count:</strong> "+data[0].Pagecount+"<br/>";
+			}
+			function getInstruction(email){
+				var request = new XMLHttpRequest();																//get special instructions
+					request.onload = loadInstruction;
+					request.open("GET", "getInstruction.php?email=" + email, true);
+					request.send();
+			}
+			function logInstruction(){
+				$.ajax({																									//log instructions to mySQL
+						type: "POST",
+						url: "logInstruction.php",
+						data: {email: primeemail, instruction: document.getElementById("instruct").value}
+						});
+						
+			}
+			function loadInstruction(){
+				var data = JSON.parse(this.responseText);
+				if(data != null)
+					document.getElementById("instruct").value = data[0].INSTRUCTION;
 			}
 		</script>
 		<script>
@@ -330,6 +364,7 @@
 							card<?=$i?>.style.top = "0px";
 							card<?=$i?>.style.left = "0px";
 							card<?=$i?>.style.zIndex = "0";
+							card2.style.zIndex = 1;
 						<?php							
 						}						
 				}
@@ -397,6 +432,7 @@
 					document.getElementById("body<?=$i?>").className = 'unhidden';
 					document.getElementById("hide<?=$i?>").style.display = 'none';
 					document.getElementById("show<?=$i?>").style.display = 'inline';
+					card2.style.zIndex = 1;
 				});
 				$("#show<?=$i?>").click(function(){
 					document.getElementById("body<?=$i?>").className = 'hidden';
@@ -431,7 +467,6 @@
 			
 			<div id="card11" class="card">																						<!--DAYS UNTIL PASSWORD EXPIRES-->
 			</div>
-			<div id="card15" class="card"></div>																			<!--SPECIAL INSTRUCTION-->
 			<div id="card16" class="card"></div>																		<!--INTRALINKS CONTACTS-->
 			<div class="card" id="card1">																				<!--PROFILE DATA-->
 			</div>			
@@ -456,8 +491,16 @@
 					<tr>
 						<th id="numSpaces">workspaces</th>
 						<th>id</th>
-						<th>product</th> 
 						<th>last accessed</th>
+						<th>status</th> 
+						<th>phase</th> 
+						<th>host</th>
+						<th>role</th>
+						<th>concurrent login</th>
+						<th>PvP</th>
+						<th>Support</th>
+						<th>plugin-free IRM</th>
+						<th>key contact</th>
 						<th><span class="end">access count</span><a href="#hide2" class="hide" id="hide2">+</a>							
 							<a href="#show2" class="show" id="show2">-</a>
 						</th>
@@ -469,32 +512,12 @@
 					<caption>BUSINESS GROUPS</caption>
 					<tr>
 						<th>group</th> 
-						<th><span class="end">something else</span>
+						<th><span class="end">unit id</span>
 							<a href="#hide7" class="hide right" id="hide7">+</a>
 							<a href="#show7" class="show right" id="show7">-</a>
 							</th>
 					</tr>
 					<tbody class="hidden" id="body7">
-					<tr>
-						<td>a group</td>
-						<td>a thing</td>
-					</tr>
-					<tr>
-						<td>a group</td>
-						<td>a thing</td>
-					</tr>
-					<tr>
-						<td>a group</td>
-						<td>a thing</td>
-					</tr>
-					<tr>
-						<td>a group</td>
-						<td>a thing</td>
-					</tr>
-					<tr>
-						<td>a group</td>
-						<td>a thing</td>
-					</tr>
 					</tbody>
 				</table>
 				
@@ -516,7 +539,11 @@
 			<div id="lowest">																							<!--3RD LVL CARDS-->
 			<div class="card" id="card4">																				<!--SPECIAL INSTRUCTION-->
 				<div class="title">SPECIAL INSTRUCTION</div>
-				<p>----data-----</p>
+				<div id="card15" class="card">
+				<textarea id="instruct" height="100"></textarea>
+				<button id="save" href="#" class="m-btn rnd" >save</button>
+				<button id="refresh" href="#" class="m-btn rnd" >refresh</button>
+				</div>
 			</div>
 			<div class="card" id="card5">																				<!--RECENT ALERTS-->
 				<div class="title">MOST RECENT ALERTS</div>
