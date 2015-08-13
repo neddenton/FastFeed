@@ -13,6 +13,9 @@
 		<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 		<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 		<link rel="stylesheet" href="enhancedGUD.css">
+		<link rel="icon" 
+      type="image/png" 
+      href="favicon.ico">
 		<style>
 			.ui-autocomplete-loading {
 				background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
@@ -24,6 +27,7 @@
 		<?php 	
 				$id = 12346;			//hardcoded user ID (to save formatting)
 		?>
+			var first = true;
 			var primeemail = "";
 			$(function() {				//function to autocomplete and display all fields
 				function displayData(){
@@ -44,6 +48,7 @@
 				}
 				function logProf(){																//report profile data
 					var data= JSON.parse(this.responseText);
+					console.log(data);
 					$("#card1").html("<div class='title'>PROFILE INFO</div><div class='twocol'>"+
 					"<span class='profileitem'><strong>Primary Email: </strong>"+data[0].EMAIL_ADDRESS+"</span>"+
 					"<span class='profileitem'><strong>User ID: </strong>"+data[0].USER_ID+"</span>"+
@@ -63,10 +68,10 @@
 						document.getElementById("card11").innerHTML = "<div class='title'>PASSWORD</div><div class='bigtext'>expired</div><br/>";
 					else
 						document.getElementById("card11").innerHTML = "<div class='title'>CHANGE PASSWORD IN</div><div class='bigtext'>"+data[0].PW_EXPIRING_IN+" days</div><br/>";
-					var request = new XMLHttpRequest();		//get contacts
+					/*var request = new XMLHttpRequest();		//get contacts
 					request.onload = logPersonel;
 					request.open("GET", "getPersonel.php?orgid=" + data[0].ORGANIZATION_ID, true);
-					request.send();
+					request.send();*/
 				}
 				function getWorkspaces(email, sorter){							//get workspace data
 					var request = new XMLHttpRequest();
@@ -76,10 +81,11 @@
 				}
 				function logWorkspaces(){									//report workspace data
 					var data = JSON.parse(this.responseText);
-					document.getElementById("body2").innerHTML = "";
+					if(document.getElementById("body2") != null)
+						document.getElementById("workhead").removeChild(document.getElementById("body2"));
 					document.getElementById("body7").innerHTML = "";
 					if(data == null)
-						var nully = null;
+						console.log("no data retrieved");
 					else{
 					var numSpaces = data.length;
 					document.getElementById("numSpaces").innerHTML = (numSpaces+" workspaces");
@@ -105,27 +111,78 @@
 							$icon = "<img width='20px' height='30px' src='via.jpg'>";
 						else if(data[i].VerticalID == 11 || data[i].VerticalID == 14)
 							$icon = "<img width='20px' height='30px' src='manda.jpg'>";
-					document.getElementById("body2").innerHTML += 
-					"<tr> <td><a href='https://services.intralinks.com/servlets/gud?page=WSPL&wsID="+data[i].ID+"'>"+data[i].ExchangeName+"</a>  "+$icon+"</td>"+
-					"<td>"+data[i].ID+"</td>"+
-					"<td>"+data[i].LastAccessed+"</td>"+
-					"<td>"+data[i].ExchangeStatus+"</td>"+
-					"<td>"+data[i].Phase+"</td>"+
-					"<td>"+data[i].Host+"</td>"+
-					"<td>"+data[i].Role+"</td>"+
-					"<td>"+$concurrent+"</td>"+
-					"<td>"+data[i].PvP+"</td>"+
-					"<td>"+data[i].Support+"</td>"+
-					"<td>"+data[i].PluginlessIRM+"</td>"+
-					"<td>"+$key+"</td>"+
-					"<td>"+$count+"</td>"+
-					"</tr>";
+						var node = document.createElement("td");
+						var row = document.createElement("tr");
+						if(i == 0){
+							var tbody = document.createElement("tbody");
+							tbody.id = "body2";
+							tbody.class = "scroll hidden"
+						}
+						node.innerHTML = "<a href='https://services.intralinks.com/servlets/gud?page=WSPL&wsID="+data[i].ID+"'>"+data[i].ExchangeName+"</a>  "+$icon;
+						row.appendChild(node);
+						node = document.createElement("td");
+						node.innerHTML = data[i].ID;
+						row.appendChild(node);
+						node = document.createElement("td");
+						node.innerHTML = data[i].LastAccessed;
+						row.appendChild(node);
+						node = document.createElement("td");
+						node.innerHTML = data[i].ExchangeStatus;
+						row.appendChild(node);
+						node = document.createElement("td");
+						node.innerHTML = data[i].Phase;
+						row.appendChild(node);
+						node = document.createElement("td");
+						node.innerHTML = data[i].Host;
+						row.appendChild(node);
+						node = document.createElement("td");
+						node.innerHTML = data[i].Role;
+						row.appendChild(node);
+						node = document.createElement("td");
+						node.innerHTML = $concurrent;
+						row.appendChild(node);
+						node = document.createElement("td");
+						node.innerHTML = data[i].PvP;
+						row.appendChild(node);
+						node = document.createElement("td");
+						node.innerHTML = data[i].Support;
+						row.appendChild(node);
+						node = document.createElement("td");
+						node.innerHTML = data[i].PluginlessIRM;
+						row.appendChild(node);
+						node = document.createElement("td");
+						node.innerHTML = $key;
+						row.appendChild(node);
+						node = document.createElement("td");
+						node.innerHTML = $count;
+						row.appendChild(node);
+						tbody.appendChild(row);
+						document.getElementById("workhead").appendChild(tbody);
+						widths();
+						
 					document.getElementById("body7").innerHTML += 
 					"<td>"+data[i].BusinessGroup+"</td>"+
 					"<td>"+data[i].BGID+"</td>"+
 					"</tr>";
+						widths();
 					}
+					if(first)
+						tbody.className = "hidden";
+					else
+						tbody.className = "unhidden";
+					first = false;
 					}
+				}
+				function widths(id){
+					var $table = $('table'),
+					$bodyCells = $table.find('tbody tr:first').children(),
+					colWidth;
+					colWidth = $bodyCells.map(function() {			// Get the tbody columns widths in an array
+						return $(this).width();
+					}).get();
+					$table.find('thead tr').children().each(function(i, v) {			// Set the widths of  the thead columns
+						$(v).width(colWidth[i]);
+					});  
 				}
 				function getAgent(id){											//get agent data from splunk
 					document.getElementById("card7").innerHTML = "<div class='title'>USER AGENT</div>";
@@ -191,12 +248,13 @@
 				
 				});
 				function clearData(){
-					document.getElementById("body2").innerHTML = "";
+					if(document.getElementById("body2") != null)
+						document.getElementById("body2").innerHTML = "";
 					document.getElementById("numSpaces").innerHTML = "workspaces";
 				}
 				
 				document.getElementById("sorter").onchange = function(){
-					getWorkspaces($primeemail, document.getElementById("sorter").value);
+					getWorkspaces(primeemail, document.getElementById("sorter").value);
 				};
 			
 		
@@ -230,11 +288,13 @@
 					answer.innerHTML = "show";
 			});
 			$("#logo").click(function(){							//restore default positioning of cards
-<?php			for($i = 1; $i < 17; $i++){
+<?php			for($i = 1; $i < 16; $i++){
 ?>					var card<?=$i?> = document.getElementById("card<?=$i?>");
 					card<?=$i?>.style.top ="0px";
 					card<?=$i?>.style.left = "0px";
 					card<?=$i?>.style.zIndex = 0;
+					if(card2)
+						card2.style.zIndex = 1;
 					$.ajax({
 						type: "POST",
 						url: "logPosition.php",
@@ -335,13 +395,13 @@
 			$(document).ready(function(){				//positioning function
 				var lastTopped = 2;
 <?php		
-				for($i = 1; $i < 17; $i++){
+				for($i = 1; $i < 16; $i++){
 ?>
 				var card<?=$i?> = document.getElementById("card<?=$i?>");
 				card<?=$i?>.style.position = "relative";
 <?php			
 				//session_start();
-				if(true){				//$_SESSION["loggedIn"] == 							//if logged in, then pulls position from mySQL
+				if(true){				//$_SESSION["loggedIn"] == 	true						//if logged in, then pulls position from mySQL
 					$con=mysqli_connect("localhost","edenton","646S5mShzvvJNb7c", "edenton");
 					$qstring = "SELECT TOP_".$i.", LEFT_".$i.", Z_".$i." FROM positioning WHERE ID = '".$id."'";
 					$result = mysqli_query($con, $qstring);
@@ -364,7 +424,8 @@
 							card<?=$i?>.style.top = "0px";
 							card<?=$i?>.style.left = "0px";
 							card<?=$i?>.style.zIndex = "0";
-							card2.style.zIndex = 1;
+							if(card2)
+								card2.style.zIndex = 1;
 						<?php							
 						}						
 				}
@@ -392,10 +453,9 @@
 				};
 				function dragMouseDown(event){
 					if(document.getElementById("mrfreeze").value == 1){
-<?php				for($i = 1; $i < 17; $i++){
+<?php				for($i = 1; $i < 16; $i++){
 ?>					if(card<?=$i?>.style.zIndex == "")
 						card<?=$i?>.style.zIndex =  1;
-						
 <?php				}
 ?>					if(parseInt(this.style.zIndex) < lastTopped){
 						this.style.zIndex = lastTopped+1;
@@ -440,7 +500,8 @@
 					document.getElementById("show<?=$i?>").style.display = 'none';
 				});
 <?php 			} 
-?>
+?>				
+	
 			});
 		</script>
 		<link href="css/m-styles.min.css" rel="stylesheet">
@@ -467,7 +528,7 @@
 			
 			<div id="card11" class="card">																						<!--DAYS UNTIL PASSWORD EXPIRES-->
 			</div>
-			<div id="card16" class="card"></div>																		<!--INTRALINKS CONTACTS-->
+			<div id="card15" class="card"></div>																		<!--INTRALINKS CONTACTS-->
 			<div class="card" id="card1">																				<!--PROFILE DATA-->
 			</div>			
 			<div id="card9">																							<!--SECURITY Q (temp question text)-->
@@ -476,40 +537,45 @@
 			</div>						
 			<div class="card" id="card7"></div>																				<!--CLIENT AGENT DATA-->
 			<div id="bottom">
-			<div class="card" id="card2">																				<!--2ND LVL CARD-->
+			<div id="card2" class="card">																				<!--2ND LVL CARD-->
 				<div class="title">EXCHANGES</div>
 				
-				<table class="table" id="workspace" style="width:100%">													<!--WORKSPACES-->
+				<table class="table scroll" id="workspace" style="width:100%">													<!--WORKSPACES-->
 					<caption>WORKSPACES</caption>
 					<select id="sorter" title="sort by">
 				<option value="lastlogin">last login</option>
 				<option value="name">name</option>
+				<option value="id">id</option>
 				<option value="accesscount">access count</option>
 				<option value="product">product name</option>
-				<option value="id">id</option>
+				<option value="phase">phase</option>
+				<option value="host">host</option>
+				<option value="role">role</option>
 				</select>
+				<thead id="workhead">
 					<tr>
 						<th id="numSpaces">workspaces</th>
-						<th>id</th>
-						<th>last accessed</th>
-						<th>status</th> 
-						<th>phase</th> 
-						<th>host</th>
-						<th>role</th>
-						<th>concurrent login</th>
-						<th>PvP</th>
-						<th>Support</th>
-						<th>plugin-free IRM</th>
-						<th>key contact</th>
+						<th id="id">id</th>
+						<th id="lastaccessed">last accessed</th>
+						<th id="status">status</th> 
+						<th id="phase">phase</th> 
+						<th id="host">host</th>
+						<th id="role">role</th>
+						<th id="concurrent">con-current login</th>
+						<th id="pvp">PvP</th>
+						<th id="support">Sup-port</th>
+						<th id="plugin">plug in-free IRM</th>
+						<th id="key">key contact</th>
 						<th><span class="end">access count</span><a href="#hide2" class="hide" id="hide2">+</a>							
 							<a href="#show2" class="show" id="show2">-</a>
 						</th>
 					</tr>
-					<tbody class="hidden" id="body2">					
-					</tbody>
+				</thead>
+					
 				</table>
-				<table class="table" id="businessgroups" style="width:100%">											<!--BUSINESS GROUPS-->
+				<table class="table scroll" id="businessgroups" style="width:100%">											<!--BUSINESS GROUPS-->
 					<caption>BUSINESS GROUPS</caption>
+					<thead>
 					<tr>
 						<th>group</th> 
 						<th><span class="end">unit id</span>
@@ -517,6 +583,7 @@
 							<a href="#show7" class="show right" id="show7">-</a>
 							</th>
 					</tr>
+					</thead>
 					<tbody class="hidden" id="body7">
 					</tbody>
 				</table>
@@ -539,11 +606,11 @@
 			<div id="lowest">																							<!--3RD LVL CARDS-->
 			<div class="card" id="card4">																				<!--SPECIAL INSTRUCTION-->
 				<div class="title">SPECIAL INSTRUCTION</div>
-				<div id="card15" class="card">
+
 				<textarea id="instruct" height="100"></textarea>
 				<button id="save" href="#" class="m-btn rnd" >save</button>
 				<button id="refresh" href="#" class="m-btn rnd" >refresh</button>
-				</div>
+				
 			</div>
 			<div class="card" id="card5">																				<!--RECENT ALERTS-->
 				<div class="title">MOST RECENT ALERTS</div>

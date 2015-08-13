@@ -153,7 +153,8 @@ a{
 	text-shadow: 1px 1px 0 #666;
 	text-align: right;
 	text-decoration: none;
-	margin-bottom: 0;
+	top: -15px;
+	left: 3px;
 	float: right;
 }
 .left{
@@ -163,7 +164,7 @@ a{
 	display: none;
 }
 .unhidden{
-	display: table-row-group;
+	display: block;
 }
 th{	
 	text-align: left;
@@ -301,10 +302,30 @@ height: 50px;
 	left: 55%;
 }
 
-#card16{
+#card15{
 	width: 15%;
 	margin-top: -50px;
 }
 tbody{
 	font-size: 8pt;
 }
+table.scroll tbody {
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+thead {
+	font-size: 6.5pt;
+}
+tbody td:last-child, thead th:last-child {
+    border-right: none;
+}
+tbody td, thead th {
+    
+}
+thead tr th { 
+    height: 30px;
+    line-height: 8px;
+}
+
+table.scroll thead { display: block; }

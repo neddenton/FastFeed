@@ -30,7 +30,6 @@
 	exec($call_splunk);
 	
 	$json = file_get_contents($fileloc);
-	error_log($json);
 	echo($json);
 		
 ?>
