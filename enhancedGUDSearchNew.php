@@ -118,7 +118,10 @@
 							tbody.id = "body2";
 							tbody.class = "scroll hidden"
 						}
-						node.innerHTML = "<a href='https://services.intralinks.com/servlets/gud?page=WSPL&wsID="+data[i].ID+"'>"+data[i].ExchangeName+"</a>  "+$icon;
+						node.innerHTML = "<a href='https://services.intralinks.com/servlets/gud?page=WSPL&wsID="+data[i].ID+"'>"+data[i].ExchangeName+"</a>";
+						row.appendChild(node);
+						node = document.createElement("td");
+						node.innerHTML = $icon;
 						row.appendChild(node);
 						node = document.createElement("td");
 						node.innerHTML = data[i].ID;
@@ -293,7 +296,7 @@
 					card<?=$i?>.style.top ="0px";
 					card<?=$i?>.style.left = "0px";
 					card<?=$i?>.style.zIndex = 0;
-					if(card2)
+					if(card2 != null)
 						card2.style.zIndex = 1;
 					$.ajax({
 						type: "POST",
@@ -424,7 +427,7 @@
 							card<?=$i?>.style.top = "0px";
 							card<?=$i?>.style.left = "0px";
 							card<?=$i?>.style.zIndex = "0";
-							if(card2)
+							if(card2 != null)
 								card2.style.zIndex = 1;
 						<?php							
 						}						
@@ -455,7 +458,7 @@
 					if(document.getElementById("mrfreeze").value == 1){
 <?php				for($i = 1; $i < 16; $i++){
 ?>					if(card<?=$i?>.style.zIndex == "")
-						card<?=$i?>.style.zIndex =  1;
+						card<?=$i?>.style.zIndex =  0;
 <?php				}
 ?>					if(parseInt(this.style.zIndex) < lastTopped){
 						this.style.zIndex = lastTopped+1;
@@ -492,7 +495,7 @@
 					document.getElementById("body<?=$i?>").className = 'unhidden';
 					document.getElementById("hide<?=$i?>").style.display = 'none';
 					document.getElementById("show<?=$i?>").style.display = 'inline';
-					card2.style.zIndex = 1;
+					
 				});
 				$("#show<?=$i?>").click(function(){
 					document.getElementById("body<?=$i?>").className = 'hidden';
@@ -555,6 +558,7 @@
 				<thead id="workhead">
 					<tr>
 						<th id="numSpaces">workspaces</th>
+						<th id="icon">icon</th>
 						<th id="id">id</th>
 						<th id="lastaccessed">last accessed</th>
 						<th id="status">status</th> 
